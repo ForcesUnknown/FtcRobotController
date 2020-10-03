@@ -17,6 +17,7 @@ public class DriveBaseData {
 
     public DriveBaseData(DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack, double wheelDiameter, boolean tetrix)
     {
+        //Hello
         this.encoderTicksPerRotation = tetrix? 1440 : 28;
         this.wheelCircumference = wheelDiameter * Math.PI;
         ticksPerCentimeter = encoderTicksPerRotation / wheelCircumference;
