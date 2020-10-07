@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -232,7 +235,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
     //region ColourSensor
 
-    public void TurnMotorColour(DcMotor motor, double power, Vector colour, RevColorSensorV3 colourSensor, double timeoutRedundancy)
+    public void TurnMotorColour(DcMotor motor, double power, Vector[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
     {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -240,19 +243,22 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
-        Vector c = new Vector(colourSensorColour.red, colourSensorColour.green, colourSensorColour.blue);
+        Vector colour = new Vector(0, 0, 0);
 
-        while (opModeIsActive() && runtime.time() < timeoutRedundancy && ColourEqual(colour, c, 40))
+        do
         {
-            colourSensorColour = colourSensor.getNormalizedColors();
-            c = new Vector(colourSensorColour.red, colourSensorColour.green, colourSensorColour.blue);
+            float[] hsv = new float[3];
 
-            telemetry.addLine("Motor: Running");
-            telemetry.addLine("Red: " + c.x + " Green: " + c.y + " Blue: " + c.z);
+            NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
+            Color.colorToHSV(colourSensorColour.toColor(), hsv);
+            colour = new Vector(hsv[0], hsv[1], hsv[2]);
+
+            telemetry.addLine("Motors: Running");
+            telemetry.addLine("Hue: " + colour.x + " Saturation: " + colour.y + " Value: " + colour.z);
 
             telemetry.update();
         }
+        while (opModeIsActive() && runtime.time() < timeoutRedundancy && CompareHSV(colour, colourRange));
 
         telemetry.addLine("Motor: Complete");
 
@@ -263,7 +269,7 @@ public abstract class RobotFunctions extends LinearOpMode
         sleep(100);
     }
 
-    public void DriveAngleColour(DriveBaseData driveBaseData, double power, double angle, Vector colour, RevColorSensorV3 colourSensor, double timeoutRedundancy)
+    public void DriveAngleColour(DriveBaseData driveBaseData, double power, double angle, Vector[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
     {
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -276,19 +282,22 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
-        Vector c = new Vector(colourSensorColour.red, colourSensorColour.green, colourSensorColour.blue);
+        Vector colour = new Vector(0, 0, 0);
 
-        while (opModeIsActive() && runtime.time() < timeoutRedundancy && ColourEqual(colour, c, 40))
+        do
         {
-            colourSensorColour = colourSensor.getNormalizedColors();
-            c = new Vector(colourSensorColour.red, colourSensorColour.green, colourSensorColour.blue);
+            float[] hsv = new float[3];
+
+            NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
+            Color.colorToHSV(colourSensorColour.toColor(), hsv);
+            colour = new Vector(hsv[0], hsv[1], hsv[2]);
 
             telemetry.addLine("Motors: Running");
-            telemetry.addLine("Red: " + c.x + " Green: " + c.y + " Blue: " + c.z);
+            telemetry.addLine("Hue: " + colour.x + " Saturation: " + colour.y + " Value: " + colour.z);
 
             telemetry.update();
         }
+        while (opModeIsActive() && runtime.time() < timeoutRedundancy && CompareHSV(colour, colourRange));
 
         telemetry.addLine("Motors: Complete");
 
@@ -299,7 +308,7 @@ public abstract class RobotFunctions extends LinearOpMode
         sleep(100);
     }
 
-    public void DriveFrontBackColour(DriveBaseData driveBaseData, double power, Vector colour, RevColorSensorV3 colourSensor, double timeoutRedundancy)
+    public void DriveFrontBackColour(DriveBaseData driveBaseData, double power, Vector[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
     {
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -307,19 +316,22 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
-        Vector c = new Vector(colourSensorColour.red, colourSensorColour.green, colourSensorColour.blue);
+        Vector colour = new Vector(0, 0, 0);
 
-        while (opModeIsActive() && runtime.time() < timeoutRedundancy && ColourEqual(colour, c, 40))
+        do
         {
-            colourSensorColour = colourSensor.getNormalizedColors();
-            c = new Vector(colourSensorColour.red, colourSensorColour.green, colourSensorColour.blue);
+            float[] hsv = new float[3];
+
+            NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
+            Color.colorToHSV(colourSensorColour.toColor(), hsv);
+            colour = new Vector(hsv[0], hsv[1], hsv[2]);
 
             telemetry.addLine("Motors: Running");
-            telemetry.addLine("Red: " + c.x + " Green: " + c.y + " Blue: " + c.z);
+            telemetry.addLine("Hue: " + colour.x + " Saturation: " + colour.y + " Value: " + colour.z);
 
             telemetry.update();
         }
+        while (opModeIsActive() && runtime.time() < timeoutRedundancy && CompareHSV(colour, colourRange));
 
         telemetry.addLine("Motors: Complete");
 
@@ -330,7 +342,7 @@ public abstract class RobotFunctions extends LinearOpMode
         sleep(100);
     }
 
-    public void DriveLeftRightColour(DriveBaseData driveBaseData, double power, Vector colour, RevColorSensorV3 colourSensor, double timeoutRedundancy)
+    public void DriveLeftRightColour(DriveBaseData driveBaseData, double power, Vector[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
     {
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -338,19 +350,22 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
-        Vector c = new Vector(colourSensorColour.red, colourSensorColour.green, colourSensorColour.blue);
+        Vector colour = new Vector(0, 0, 0);
 
-        while (opModeIsActive() && runtime.time() < timeoutRedundancy && ColourEqual(colour, c, 40))
+        do
         {
-            colourSensorColour = colourSensor.getNormalizedColors();
-            c = new Vector(colourSensorColour.red, colourSensorColour.green, colourSensorColour.blue);
+            float[] hsv = new float[3];
+
+            NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
+            Color.colorToHSV(colourSensorColour.toColor(), hsv);
+            colour = new Vector(hsv[0], hsv[1], hsv[2]);
 
             telemetry.addLine("Motors: Running");
-            telemetry.addLine("Red: " + c.x + " Green: " + c.y + " Blue: " + c.z);
+            telemetry.addLine("Hue: " + colour.x + " Saturation: " + colour.y + " Value: " + colour.z);
 
             telemetry.update();
         }
+        while (opModeIsActive() && runtime.time() < timeoutRedundancy && CompareHSV(colour, colourRange));
 
         telemetry.addLine("Motors: Complete");
 
@@ -385,13 +400,9 @@ public abstract class RobotFunctions extends LinearOpMode
         return move;
     }
 
-    private boolean ColourEqual(Vector a, Vector b, int accuracy)
+    private boolean CompareHSV(Vector colour, Vector[] range)
     {
-        double red = a.x - b.x;
-        double green = a.y - b.y;
-        double blue = a.z - b.z;
-
-        if((red < accuracy && red > -accuracy) && (green < accuracy && green > -accuracy) && (blue < accuracy && blue > -accuracy))
+        if(colour.x >= range[0].x && colour.x <= range[1].x && colour.y >= range[0].y && colour.y <= range[1].y && colour.z >= range[0].z && colour.z <= range[1].z)
             return true;
 
         return false;

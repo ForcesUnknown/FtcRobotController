@@ -39,6 +39,8 @@ public class TestAutonomousProgram extends RobotFunctions
         waitForStart();
         runtime.reset();
 
+        //Drive forward 100 cm at power 1, if it takes more than 5 seconds stop
+        DriveFrontBackDistance(driveBaseData, 1, 100, 5);
 
 
     }
