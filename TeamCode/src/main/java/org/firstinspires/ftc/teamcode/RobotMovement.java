@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 @Disabled
 public class RobotMovement extends OpMode {
 
-    ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
     DcMotor leftBack;
     DcMotor leftFront;
     DcMotor rightBack;
@@ -21,18 +21,29 @@ public class RobotMovement extends OpMode {
     @Override
     public void init(){
         HardwareMap hardwareMap = null;
-        leftBack = hardwareMap.dcMotor.get("");
-        leftFront = hardwareMap.dcMotor.get("");
-        rightBack = hardwareMap.dcMotor.get("");
-        rightFront = hardwareMap.dcMotor.get("");
+        leftBack = hardwareMap.dcMotor.get("leftBack_wheel");
+        leftFront = hardwareMap.dcMotor.get("leftFront_wheel");
+        rightBack = hardwareMap.dcMotor.get("rightBack_wheel");
+        rightFront = hardwareMap.dcMotor.get("rightFront_wheel");
         
     }
 
     @Override
     public void loop() {
-        leftBack.setPower(0.7);
-        leftFront.setPower(0.7);
-        leftBack.setPower(0.7);
-        rightFront.setPower(0.7);
+        double leftBackPower;
+        double leftFrontPower;
+        double rightBackPower;
+        double rightFrontPower;
+
+        double drive = -gamepad1.left_stick_y;
+        double turn  =  gamepad1.right_stick_x;
+        leftBackPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+        leftFrontPower = Range.clip(drive - turn, -1.0, 1.0) ;
+        rightBackPower    = Range.clip(drive + turn, -1.0, 1.0) ;
+        rightFrontPower = Range.clip(drive - turn, -1.0, 1.0) ;
+    }
+
+    public void stop(){
+
     }
 }
