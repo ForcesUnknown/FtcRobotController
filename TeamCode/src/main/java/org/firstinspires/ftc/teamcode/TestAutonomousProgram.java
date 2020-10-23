@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
  This is a test op mode for season 2020/2021: Ultimate Goal
@@ -18,6 +21,8 @@ public class TestAutonomousProgram extends RobotFunctions
     private DriveBaseData driveBaseData = null;
     private ServoData testServo;
 
+    private IMUData imuData;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -27,10 +32,11 @@ public class TestAutonomousProgram extends RobotFunctions
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        driveBaseData = new DriveBaseData(hardwareMap.get(DcMotor.class, "LeftFront"), hardwareMap.get(DcMotor.class, "RightFront"),
-                hardwareMap.get(DcMotor.class, "LeftBack"), hardwareMap.get(DcMotor.class, "RightBack"), 50, false);
+        driveBaseData = new DriveBaseData("LeftFront","RightFront","LeftBack", "RightBack", 50, 1440, hardwareMap);
 
-        testServo = new ServoData(hardwareMap.get(Servo.class, "ServoA"), 0.0, 1.0);
+        testServo = new ServoData("ServoA", 0.0, 1.0, hardwareMap);
+
+        imuData = new IMUData("IMU", hardwareMap);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");

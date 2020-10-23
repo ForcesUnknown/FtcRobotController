@@ -21,10 +21,11 @@ public class RobotMovement extends OpMode {
     @Override
     public void init(){
         HardwareMap hardwareMap = null;
-        leftBack = hardwareMap.dcMotor.get("leftBack_wheel");
-        leftFront = hardwareMap.dcMotor.get("leftFront_wheel");
-        rightBack = hardwareMap.dcMotor.get("rightBack_wheel");
-        rightFront = hardwareMap.dcMotor.get("rightFront_wheel");
+
+        leftBack = hardwareMap.get(DcMotor.class, "LeftBack");
+        leftFront = hardwareMap.get(DcMotor.class,"LeftFront");
+        rightBack = hardwareMap.get(DcMotor.class,"RightBack");
+        rightFront = hardwareMap.get(DcMotor.class,"RightFront");
         
     }
 
@@ -35,18 +36,22 @@ public class RobotMovement extends OpMode {
         double rightBackPower;
         double rightFrontPower;
 
-        double lefty = gamepad1.left_stick_y; //driving
-        double leftx = gamepad1.left_stick_x;
-        double rightx  =  gamepad1.right_stick_x; //turning
-        leftBackPower = Range.clip(lefty - leftx + rightx, -1.0, 1.0); //-1+-1=-1
-        leftFrontPower = Range.clip(lefty + leftx + rightx, -1.0, 1.0); //(-1) - (-1) = 0
-        rightBackPower = Range.clip(lefty + leftx - rightx, -1.0, 1.0); // -1+-1=-1
-        rightFrontPower = Range.clip(lefty - leftx - rightx, -1.0, 1.0); //-1--1=0
+        double leftY = gamepad1.left_stick_y; //driving
+        double leftX = gamepad1.left_stick_x;
+        double rightX  =  gamepad1.right_stick_x; //turning
+        
+        leftBackPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0); //-1+-1=-1
+        leftFrontPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0); //(-1) - (-1) = 0
+        rightBackPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0); // -1+-1=-1
+        rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0); //-1--1=0
 
         leftBack.setPower(leftBackPower);
         leftFront.setPower(leftFrontPower);
         rightBack.setPower(rightBackPower);
         rightFront.setPower(rightFrontPower);
+
+        telemetry.addLine(runtime.toString());
+        telemetry.update();
 
     }
 }

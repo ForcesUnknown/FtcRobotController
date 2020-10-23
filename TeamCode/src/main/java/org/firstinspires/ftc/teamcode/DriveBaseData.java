@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 public class DriveBaseData {
@@ -15,22 +16,22 @@ public class DriveBaseData {
     public double ticksPerCentimeter;
     public int encoderTicksPerRotation; // I believe its is 28 for rev and 1440 for Tetrix but i could be wrong
 
-    public DriveBaseData(DcMotor leftFront, DcMotor rightFront, DcMotor leftBack, DcMotor rightBack, double wheelDiameter, boolean tetrix)
+    public DriveBaseData(String leftFront, String rightFront, String leftBack, String rightBack, double wheelDiameter, int encoderTicks, HardwareMap hardwareMap)
     {
         //Hello
-        this.encoderTicksPerRotation = tetrix? 1440 : 28;
+        this.encoderTicksPerRotation = encoderTicks;
         this.wheelCircumference = wheelDiameter * Math.PI;
         ticksPerCentimeter = encoderTicksPerRotation / wheelCircumference;
 
-        this.leftFront = leftFront;
-        this.rightFront = rightFront;
-        this.leftBack = leftBack;
-        this.rightBack = rightBack;
+        this.leftFront = hardwareMap.get(DcMotor.class, leftFront);
+        this.rightFront = hardwareMap.get(DcMotor.class, rightFront);
+        this.leftBack = hardwareMap.get(DcMotor.class, leftBack);
+        this.rightBack = hardwareMap.get(DcMotor.class, rightBack);
 
-        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        this.rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
+        this.rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void SetPower(double power)

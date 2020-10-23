@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 /**
     This file contains the underlying functions to be used during the 2020/2021 season
@@ -80,11 +81,11 @@ public abstract class RobotFunctions extends LinearOpMode
 
     //region Encoders
 
-    public void TurnMotorDistance(DcMotor motor, double power, double distance, double timeoutRedundancy, double wheelDiameter, boolean tetrix)
+    public void TurnMotorDistance(DcMotor motor, double power, double distance, double timeoutRedundancy, double wheelDiameter, int encoderTicks)
     {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        int encoderTicksPerRotation = tetrix? 1440 : 28;
+        int encoderTicksPerRotation = encoderTicks;
         double wheelCircumference = wheelDiameter * Math.PI;
         double ticksPerCentimeter = encoderTicksPerRotation / wheelCircumference;
 
@@ -366,6 +367,55 @@ public abstract class RobotFunctions extends LinearOpMode
             telemetry.update();
         }
         while (opModeIsActive() && runtime.time() < timeoutRedundancy && CompareHSV(colour, colourRange));
+
+        telemetry.addLine("Motors: Complete");
+
+        telemetry.update();
+
+        driveBaseData.SetPower(0);
+
+        sleep(100);
+    }
+
+    //endregion
+
+    //region Gyro
+
+    public void TurnGyro(DriveBaseData driveBaseData, double power, double angle, IMUData imuData, double timeoutRedundancy)
+    {
+        driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        double currentAngle = imuData.HeadingAngle();
+        angle = Range.clip(angle, -180, 180);
+
+        if(angle > currentAngle)
+        {
+            driveBaseData.SetPower(power, -power, power, -power);
+            runtime.reset();
+
+            while (opModeIsActive() && runtime.time() < timeoutRedundancy && angle > currentAngle)
+            {
+                currentAngle = imuData.HeadingAngle();
+                telemetry.addLine("Motors: Running");
+                telemetry.addLine("Current Angle: " + currentAngle);
+
+                telemetry.update();
+            }
+        }
+        else
+        {
+            driveBaseData.SetPower(-power, power, -power, power);
+            runtime.reset();
+
+            while (opModeIsActive() && runtime.time() < timeoutRedundancy && angle < currentAngle)
+            {
+                currentAngle = imuData.HeadingAngle();
+                telemetry.addLine("Motors: Running");
+                telemetry.addLine("Current Angle: " + currentAngle);
+
+                telemetry.update();
+            }
+        }
 
         telemetry.addLine("Motors: Complete");
 
