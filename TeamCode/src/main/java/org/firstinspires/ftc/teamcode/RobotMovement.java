@@ -35,15 +35,18 @@ public class RobotMovement extends OpMode {
         double rightBackPower;
         double rightFrontPower;
 
-        double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
-        leftBackPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        leftFrontPower = Range.clip(drive - turn, -1.0, 1.0) ;
-        rightBackPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightFrontPower = Range.clip(drive - turn, -1.0, 1.0) ;
-    }
+        double lefty = gamepad1.left_stick_y; //driving
+        double leftx = gamepad1.left_stick_x;
+        double rightx  =  gamepad1.right_stick_x; //turning
+        leftBackPower = Range.clip(lefty - leftx + rightx, -1.0, 1.0); //-1+-1=-1
+        leftFrontPower = Range.clip(lefty + leftx + rightx, -1.0, 1.0); //(-1) - (-1) = 0
+        rightBackPower = Range.clip(lefty + leftx - rightx, -1.0, 1.0); // -1+-1=-1
+        rightFrontPower = Range.clip(lefty - leftx - rightx, -1.0, 1.0); //-1--1=0
 
-    public void stop(){
+        leftBack.setPower(leftBackPower);
+        leftFront.setPower(leftFrontPower);
+        rightBack.setPower(rightBackPower);
+        rightFront.setPower(rightFrontPower);
 
     }
 }
