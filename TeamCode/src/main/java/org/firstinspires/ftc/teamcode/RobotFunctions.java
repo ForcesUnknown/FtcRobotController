@@ -29,11 +29,6 @@ public abstract class RobotFunctions extends LinearOpMode
         servo.setPosition(position);
     }
 
-    public void SetServoPosition(ServoData servoData)
-    {
-        servoData.servo.setPosition(servoData.startPosition);
-    }
-
     //endregion
 
     //region Time
@@ -456,6 +451,19 @@ public abstract class RobotFunctions extends LinearOpMode
             return true;
 
         return false;
+    }
+
+    protected double Lerp(double a, double b)
+    {
+        return ((b - a) / 2) + a;
+    }
+
+    protected boolean Range(double a, double b, double range)
+    {
+        if(a > b)
+            return a - b < range;
+
+        return b - a < range;
     }
 
     //endregion

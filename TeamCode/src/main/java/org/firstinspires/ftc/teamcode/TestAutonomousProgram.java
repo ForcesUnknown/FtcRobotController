@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.LegacyModule;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -22,6 +24,10 @@ public class TestAutonomousProgram extends RobotFunctions
     private ServoData testServo;
 
     private IMUData imuData;
+    private TouchSensor touchSensor;
+
+    private int square;
+    private int aPosition, bPosition, cPosition;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -29,14 +35,12 @@ public class TestAutonomousProgram extends RobotFunctions
         telemetry.addData("Status", "Initializing");
         telemetry.update();
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
         driveBaseData = new DriveBaseData("LeftFront","RightFront","LeftBack", "RightBack", 50, 1440, hardwareMap);
 
         testServo = new ServoData("ServoA", 0.0, 1.0, hardwareMap);
 
         imuData = new IMUData("IMU", hardwareMap);
+        touchSensor = hardwareMap.get(TouchSensor.class, "TouchSensor");
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -45,8 +49,21 @@ public class TestAutonomousProgram extends RobotFunctions
         waitForStart();
         runtime.reset();
 
-        //Drive forward 100 cm at power 1, if it takes more than 5 seconds stop
-        DriveFrontBackDistance(driveBaseData, 1, 100, 5);
+        //Drive forward 70 cm at power 1, if it takes more than 5 seconds stop
+        DriveFrontBackDistance(driveBaseData, 1, 70, 5);
+        double servoPosition = testServo.startPosition;
+        while(!touchSensor.isPressed())
+        {
+            servoPosition = Lerp(servoPosition, testServo.targetPosition);
+            SetServoPosition(testServo.servo, servoPosition);
+            sleep(10);
+        }
+        if (Range(testServo.servo.getPosition(), aPosition, 0.15))
+            square = 0;
+        else if(Range(testServo.servo.getPosition(), bPosition, 0.15))
+            square = 1;
+        else
+            square = 2;
 
 
     }
