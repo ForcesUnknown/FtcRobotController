@@ -4,11 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Driver Control", group="DriverControl")
+@TeleOp(name="TeleOp", group="DriverControl")
 public class RobotMovement extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -18,6 +19,7 @@ public class RobotMovement extends OpMode {
     private DcMotor rightFront;
 
     private DcMotor intakeMotor;
+    private DcMotor shooterMotor;
 
     @Override
     public void init()
@@ -28,6 +30,10 @@ public class RobotMovement extends OpMode {
         rightFront = hardwareMap.get(DcMotor.class,"RightFront");
 
         intakeMotor = hardwareMap.get(DcMotor.class, "IntakeMotor");
+        shooterMotor = hardwareMap.get(DcMotor.class, "ShooterMotor");
+
+        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     @Override
@@ -47,10 +53,18 @@ public class RobotMovement extends OpMode {
         rightBack.setPower(rightBackPower);
         rightFront.setPower(rightFrontPower);
 
-        int intakePower = Range.clip((int)gamepad1.right_trigger - (int)gamepad1.left_trigger, -1, 1);
+        int shooterPower = Range.clip((int)gamepad1.right_trigger - (int)gamepad1.left_trigger, -1, 1);
+
+        shooterMotor.setPower(shooterPower);
+
+        int intakePower = 0;
+
+        if(gamepad1.right_bumper)
+            intakePower = 1;
+        else if (gamepad1.left_bumper)
+            intakePower = -1;
 
         intakeMotor.setPower(intakePower);
-
 
 
         telemetry.addLine(runtime.toString());
