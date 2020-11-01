@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="TeleOp", group="DriverControl")
+@TeleOp(name="DriverControl", group="TeleOp")
 public class RobotMovement extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
