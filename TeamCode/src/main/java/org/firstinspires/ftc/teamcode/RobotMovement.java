@@ -32,8 +32,8 @@ public class RobotMovement extends OpMode {
         intakeMotor = hardwareMap.get(DcMotor.class, "IntakeMotor");
         shooterMotor = hardwareMap.get(DcMotor.class, "ShooterMotor");
 
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
     }
 
     @Override
