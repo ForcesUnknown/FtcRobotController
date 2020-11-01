@@ -48,10 +48,15 @@ public class RobotMovement extends OpMode {
        // double rightBackPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0); // -1+-1=-1
        // double rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0); //-1--1=0
 
-        double leftBackPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0); //-1+-1=-1
-        double rightBackPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0); // -1+-1=-1
-        double leftFrontPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0); //(-1) - (-1) = 0
-        double rightFrontPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0); //-1--1=0
+      //  double leftBackPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0); //-1+-1=-1
+       // double rightBackPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0); // -1+-1=-1
+       // double leftFrontPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0); //(-1) - (-1) = 0
+       // double rightFrontPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0); //-1--1=0
+
+        double leftBackPower = Range.clip(rightX, -1.0, 1.0); //-1+-1=-1
+        double rightBackPower = Range.clip(-rightX, -1.0, 1.0); // -1+-1=-1
+        double leftFrontPower = Range.clip(rightX, -1.0, 1.0); //(-1) - (-1) = 0
+        double rightFrontPower = Range.clip(-rightX, -1.0, 1.0); //-1--1=0
 
 
 
