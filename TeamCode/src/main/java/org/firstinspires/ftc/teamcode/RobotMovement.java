@@ -80,6 +80,7 @@ public class RobotMovement extends OpMode {
 
 
         telemetry.addLine(runtime.toString());
+
         telemetry.update();
 
     }
