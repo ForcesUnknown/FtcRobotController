@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.LegacyModule;
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  Created on September 13th 2020
  */
 
-@TeleOp(name="TestAutonomous", group="TestPrograms")
+@Autonomous(name="TestAutonomous", group="Autonomous")
 public class TestAutonomousProgram extends RobotFunctions
 {
     private ElapsedTime runtime = new ElapsedTime();
