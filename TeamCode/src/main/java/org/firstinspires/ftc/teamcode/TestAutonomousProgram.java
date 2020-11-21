@@ -35,12 +35,12 @@ public class TestAutonomousProgram extends RobotFunctions
         telemetry.addData("Status", "Initializing");
         telemetry.update();
 
-        driveBaseData = new DriveBaseData("LeftFront","RightFront","LeftBack", "RightBack", 50, 1440, hardwareMap);
+        driveBaseData = new DriveBaseData("LeftFront","RightFront","LeftBack", "RightBack", 75, 1440, hardwareMap);
 
-        testServo = new ServoData("ServoA", 0.0, 1.0, hardwareMap);
+        //testServo = new ServoData("TouchServoArm", 0.0, 1.0, hardwareMap);
 
-        imuData = new IMUData("IMU", hardwareMap);
-        touchSensor = hardwareMap.get(TouchSensor.class, "TouchSensor");
+        imuData = new IMUData("imu", hardwareMap);
+        //touchSensor = hardwareMap.get(TouchSensor.class, "TouchSensor");
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -51,7 +51,7 @@ public class TestAutonomousProgram extends RobotFunctions
 
         //Drive forward 70 cm at power 1, if it takes more than 5 seconds stop
         DriveFrontBackDistance(driveBaseData, 1, 70, 5);
-        double servoPosition = testServo.startPosition;
+        /*double servoPosition = testServo.startPosition;
         while(!touchSensor.isPressed())
         {
             servoPosition = Lerp(servoPosition, testServo.targetPosition);
@@ -63,7 +63,7 @@ public class TestAutonomousProgram extends RobotFunctions
         else if(Range(testServo.servo.getPosition(), bPosition, 0.15))
             square = 1;
         else
-            square = 2;
+            square = 2;*/
 
 
     }
