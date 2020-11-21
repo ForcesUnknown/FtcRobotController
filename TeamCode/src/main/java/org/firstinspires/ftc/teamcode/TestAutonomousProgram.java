@@ -49,8 +49,8 @@ public class TestAutonomousProgram extends RobotFunctions
         waitForStart();
         runtime.reset();
 
-        //Drive forward 70 cm at power 1, if it takes more than 5 seconds stop
-        DriveFrontBackDistance(driveBaseData, 1, 70, 5);
+        //Drive forward 10 cm at power 1, if it takes more than 5 seconds stop
+        DriveFrontBackDistance(driveBaseData, 1, 10, 5);
         /*double servoPosition = testServo.startPosition;
         while(!touchSensor.isPressed())
         {
