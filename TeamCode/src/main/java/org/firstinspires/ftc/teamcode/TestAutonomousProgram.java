@@ -5,11 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.LegacyModule;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+import java.util.Vector;
 
 /**
  This is a test op mode for season 2020/2021: Ultimate Goal
@@ -27,6 +30,9 @@ public class TestAutonomousProgram extends RobotFunctions
     private IMUData imuData;
     private TouchSensor touchSensor;
 
+    private NormalizedColorSensor colourSensor;
+
+
     private int square;
     private int aPosition, bPosition, cPosition;
 
@@ -37,6 +43,11 @@ public class TestAutonomousProgram extends RobotFunctions
         telemetry.update();
 
         driveBaseData = new DriveBaseData("LeftFront","RightFront","LeftBack", "RightBack", 75, 1440, hardwareMap);
+
+        driveBaseData.SetMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        colourSensor = hardwareMap.get(NormalizedColorSensor.class, "ColourSensor");
+
 
         //testServo = new ServoData("TouchServoArm", 0.0, 1.0, hardwareMap);
 
@@ -51,7 +62,12 @@ public class TestAutonomousProgram extends RobotFunctions
         runtime.reset();
 
         //Drive forward 10 cm at power 1, if it takes more than 5 seconds stop
-        DriveFrontBackDistance(driveBaseData, 1, 10, 5);
+        //DriveFrontBackDistance(driveBaseData, 1, 100, 5);
+        VectorData[] range = new VectorData[2];
+        range[0] = new VectorData(0, 0, 0);
+        range[0] = new VectorData(255, 255, 100);
+
+        DriveLeftRightColour(driveBaseData, 1, range, colourSensor, 100);
         /*double servoPosition = testServo.startPosition;
         while(!touchSensor.isPressed())
         {

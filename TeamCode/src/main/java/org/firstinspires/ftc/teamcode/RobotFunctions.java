@@ -170,7 +170,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        while (opModeIsActive() && runtime.time() < timeoutRedundancy && (driveBaseData.leftFront.isBusy() && driveBaseData.rightFront.isBusy() && driveBaseData.leftBack.isBusy() && driveBaseData.rightBack.isBusy()))
+        while (opModeIsActive() && (driveBaseData.leftFront.isBusy() && driveBaseData.rightFront.isBusy() && driveBaseData.leftBack.isBusy() && driveBaseData.rightBack.isBusy()))
         {
             telemetry.addLine("Motors: Running");
 

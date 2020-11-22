@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -21,6 +25,8 @@ public class RobotMovement extends OpMode {
     private DcMotor intakeMotor;
     private DcMotor shooterMotor;
 
+    private NormalizedColorSensor colourSensor;
+
     @Override
     public void init()
     {
@@ -31,6 +37,8 @@ public class RobotMovement extends OpMode {
 
         intakeMotor = hardwareMap.get(DcMotor.class, "IntakeMotor");
         shooterMotor = hardwareMap.get(DcMotor.class, "ShooterMotor");
+
+        colourSensor = hardwareMap.get(NormalizedColorSensor.class, "ColourSensor");
 
         rightBack.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
@@ -80,6 +88,15 @@ public class RobotMovement extends OpMode {
 
 
         telemetry.addLine(runtime.toString());
+
+        float[] hsv = new float[3];
+
+        NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
+        Color.colorToHSV(colourSensorColour.toColor(), hsv);
+        telemetry.addLine("Motors: Running");
+        telemetry.addLine("Hue: " + hsv[0] + " Saturation: " + hsv[1] + " Value: " + hsv[2]);
+
+        telemetry.update();
 
         telemetry.update();
 

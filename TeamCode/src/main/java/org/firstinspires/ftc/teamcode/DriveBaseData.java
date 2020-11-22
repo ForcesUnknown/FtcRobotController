@@ -28,10 +28,10 @@ public class DriveBaseData {
         this.leftBack = hardwareMap.get(DcMotor.class, leftBack);
         this.rightBack = hardwareMap.get(DcMotor.class, rightBack);
 
-        this.leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        this.rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        this.leftBack.setDirection(DcMotorSimple.Direction.FORWARD);
-        this.rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        this.leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public void SetPower(double power)
