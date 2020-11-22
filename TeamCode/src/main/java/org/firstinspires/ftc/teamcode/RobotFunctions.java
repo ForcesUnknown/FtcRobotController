@@ -42,7 +42,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
     public void DriveAngleTime(DriveBaseData driveBaseData, double power, long time, double angle)
     {
-        Vector move = AngleToVector(angle);
+        VectorData move = AngleToVectorData(angle);
 
         double left = Clamp((move.x + move.y) * power, -1, 1);
         double right = Clamp((move.x - move.y) * power, -1, 1);
@@ -116,7 +116,7 @@ public abstract class RobotFunctions extends LinearOpMode
     {
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Vector move = AngleToVector(angle);
+        VectorData move = AngleToVectorData(angle);
 
         double left = Clamp((move.x + move.y), -1, 1);
         double right = Clamp((move.x - move.y), -1, 1);
@@ -231,7 +231,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
     //region ColourSensor
 
-    public void TurnMotorColour(DcMotor motor, double power, Vector[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
+    public void TurnMotorColour(DcMotor motor, double power, VectorData[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
     {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -239,7 +239,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        Vector colour = new Vector(0, 0, 0);
+        VectorData colour = new VectorData(0, 0, 0);
 
         do
         {
@@ -247,7 +247,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
             NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
             Color.colorToHSV(colourSensorColour.toColor(), hsv);
-            colour = new Vector(hsv[0], hsv[1], hsv[2]);
+            colour = new VectorData(hsv[0], hsv[1], hsv[2]);
 
             telemetry.addLine("Motors: Running");
             telemetry.addLine("Hue: " + colour.x + " Saturation: " + colour.y + " Value: " + colour.z);
@@ -265,11 +265,11 @@ public abstract class RobotFunctions extends LinearOpMode
         sleep(100);
     }
 
-    public void DriveAngleColour(DriveBaseData driveBaseData, double power, double angle, Vector[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
+    public void DriveAngleColour(DriveBaseData driveBaseData, double power, double angle, VectorData[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
     {
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        Vector move = AngleToVector(angle);
+        VectorData move = AngleToVectorData(angle);
 
         double left = Clamp((move.x + move.y) * power, -1, 1);
         double right = Clamp((move.x - move.y) * power, -1, 1);
@@ -278,7 +278,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        Vector colour = new Vector(0, 0, 0);
+        VectorData colour = new VectorData(0, 0, 0);
 
         do
         {
@@ -286,7 +286,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
             NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
             Color.colorToHSV(colourSensorColour.toColor(), hsv);
-            colour = new Vector(hsv[0], hsv[1], hsv[2]);
+            colour = new VectorData(hsv[0], hsv[1], hsv[2]);
 
             telemetry.addLine("Motors: Running");
             telemetry.addLine("Hue: " + colour.x + " Saturation: " + colour.y + " Value: " + colour.z);
@@ -304,7 +304,7 @@ public abstract class RobotFunctions extends LinearOpMode
         sleep(100);
     }
 
-    public void DriveFrontBackColour(DriveBaseData driveBaseData, double power, Vector[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
+    public void DriveFrontBackColour(DriveBaseData driveBaseData, double power, VectorData[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
     {
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -312,7 +312,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        Vector colour = new Vector(0, 0, 0);
+        VectorData colour = new VectorData(0, 0, 0);
 
         do
         {
@@ -320,7 +320,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
             NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
             Color.colorToHSV(colourSensorColour.toColor(), hsv);
-            colour = new Vector(hsv[0], hsv[1], hsv[2]);
+            colour = new VectorData(hsv[0], hsv[1], hsv[2]);
 
             telemetry.addLine("Motors: Running");
             telemetry.addLine("Hue: " + colour.x + " Saturation: " + colour.y + " Value: " + colour.z);
@@ -338,7 +338,7 @@ public abstract class RobotFunctions extends LinearOpMode
         sleep(100);
     }
 
-    public void DriveLeftRightColour(DriveBaseData driveBaseData, double power, Vector[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
+    public void DriveLeftRightColour(DriveBaseData driveBaseData, double power, VectorData[] colourRange, NormalizedColorSensor colourSensor, double timeoutRedundancy)
     {
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -346,7 +346,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        Vector colour = new Vector(0, 0, 0);
+        VectorData colour = new VectorData(0, 0, 0);
 
         do
         {
@@ -354,7 +354,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
             NormalizedRGBA colourSensorColour = colourSensor.getNormalizedColors();
             Color.colorToHSV(colourSensorColour.toColor(), hsv);
-            colour = new Vector(hsv[0], hsv[1], hsv[2]);
+            colour = new VectorData(hsv[0], hsv[1], hsv[2]);
 
             telemetry.addLine("Motors: Running");
             telemetry.addLine("Hue: " + colour.x + " Saturation: " + colour.y + " Value: " + colour.z);
@@ -435,9 +435,9 @@ public abstract class RobotFunctions extends LinearOpMode
          return value;
     }
 
-    private Vector AngleToVector(double angle)
+    private VectorData AngleToVectorData(double angle)
     {
-        Vector move = new Vector(0 , 0);
+        VectorData move = new VectorData(0 , 0);
 
         Math.toRadians(angle);
         move.y = Math.sin(angle);
@@ -445,7 +445,7 @@ public abstract class RobotFunctions extends LinearOpMode
         return move;
     }
 
-    private boolean CompareHSV(Vector colour, Vector[] range)
+    private boolean CompareHSV(VectorData colour, VectorData[] range)
     {
         if(colour.x >= range[0].x && colour.x <= range[1].x && colour.y >= range[0].y && colour.y <= range[1].y && colour.z >= range[0].z && colour.z <= range[1].z)
             return true;

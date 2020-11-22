@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
-public class Vector
+public class VectorData
 {
     public double x;
     public double y;
     public double z;
 
-    public Vector(double x, double y)
+    public VectorData(double x, double y)
     {
         this.x = x;
         this.y = y;
     }
 
-    public Vector(double x, double y, double z)
+    public VectorData(double x, double y, double z)
     {
         this.x = x;
         this.y = y;

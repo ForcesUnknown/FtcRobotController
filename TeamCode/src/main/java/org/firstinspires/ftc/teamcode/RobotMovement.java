@@ -43,20 +43,20 @@ public class RobotMovement extends OpMode {
         double leftX = gamepad1.left_stick_x;
         double rightX  =  gamepad1.right_stick_x; //turning
 
-       // double leftBackPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0); //-1+-1=-1
-       // double leftFrontPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0); //(-1) - (-1) = 0
-       // double rightBackPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0); // -1+-1=-1
-       // double rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0); //-1--1=0
+        double leftBackPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0); //-1+-1=-1
+        double leftFrontPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0); //(-1) - (-1) = 0
+        double rightBackPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0); // -1+-1=-1
+        double rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0); //-1--1=0
 
       //  double leftBackPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0); //-1+-1=-1
        // double rightBackPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0); // -1+-1=-1
        // double leftFrontPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0); //(-1) - (-1) = 0
        // double rightFrontPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0); //-1--1=0
 
-        double leftBackPower = Range.clip(rightX, -1.0, 1.0); //-1+-1=-1
-        double rightBackPower = Range.clip(-rightX, -1.0, 1.0); // -1+-1=-1
-        double leftFrontPower = Range.clip(rightX, -1.0, 1.0); //(-1) - (-1) = 0
-        double rightFrontPower = Range.clip(-rightX, -1.0, 1.0); //-1--1=0
+       // double leftBackPower = Range.clip(rightX, -1.0, 1.0); //-1+-1=-1
+       // double rightBackPower = Range.clip(-rightX, -1.0, 1.0); // -1+-1=-1
+       // double leftFrontPower = Range.clip(rightX, -1.0, 1.0); //(-1) - (-1) = 0
+       // double rightFrontPower = Range.clip(-rightX, -1.0, 1.0); //-1--1=0
 
 
 
