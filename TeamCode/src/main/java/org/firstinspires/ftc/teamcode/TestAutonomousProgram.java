@@ -25,7 +25,9 @@ public class TestAutonomousProgram extends RobotFunctions
     private ElapsedTime runtime = new ElapsedTime();
 
     private DriveBaseData driveBaseData = null;
-    private ServoData testServo;
+    private ServoData measureServo;
+    private ServoData wobbleServo;
+
 
     private IMUData imuData;
     private TouchSensor touchSensor;
@@ -48,11 +50,11 @@ public class TestAutonomousProgram extends RobotFunctions
 
         colourSensor = hardwareMap.get(NormalizedColorSensor.class, "ColourSensor");
 
-
-        //testServo = new ServoData("TouchServoArm", 0.0, 1.0, hardwareMap);
+        wobbleServo = new ServoData("WobbleServoArm", 0.6, 0.3, hardwareMap);
+        measureServo = new ServoData("TouchServoArm", 1.0, 1.0, hardwareMap);
+        touchSensor = hardwareMap.get(TouchSensor.class, "TouchSensor");
 
         imuData = new IMUData("imu", hardwareMap);
-        //touchSensor = hardwareMap.get(TouchSensor.class, "TouchSensor");
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -61,27 +63,52 @@ public class TestAutonomousProgram extends RobotFunctions
         waitForStart();
         runtime.reset();
 
-        //Drive forward 10 cm at power 1, if it takes more than 5 seconds stop
-        //DriveFrontBackDistance(driveBaseData, 1, 100, 5);
-        VectorData[] range = new VectorData[2];
+        SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
+
+        sleep(100);
+
+        //Drive forward
+        DriveFrontBackDistance(driveBaseData, 1, 765, 5);
+      /*  VectorData[] range = new VectorData[2];
         range[0] = new VectorData(0, 0, 0);
         range[0] = new VectorData(255, 255, 100);
 
-        DriveLeftRightColour(driveBaseData, 1, range, colourSensor, 100);
-        /*double servoPosition = testServo.startPosition;
+        DriveLeftRightColour(driveBaseData, 1, range, colourSensor, 100);*/
+        double servoPosition = measureServo.startPosition;
         while(!touchSensor.isPressed())
         {
-            servoPosition = Lerp(servoPosition, testServo.targetPosition);
-            SetServoPosition(testServo.servo, servoPosition);
-            sleep(10);
+            servoPosition -= (measureServo.targetPosition - measureServo.startPosition) / 15;
+            SetServoPosition(measureServo.servo, servoPosition);
+            sleep(30);
         }
-        if (Range(testServo.servo.getPosition(), aPosition, 0.15))
+        if (Range(measureServo.servo.getPosition(), aPosition, 0.15))
             square = 0;
-        else if(Range(testServo.servo.getPosition(), bPosition, 0.15))
+        else if(Range(measureServo.servo.getPosition(), bPosition, 0.15))
             square = 1;
         else
-            square = 2;*/
+            square = 2;
 
+        switch(square)
+        {
+            case(0):
+                DriveFrontBackDistance(driveBaseData, 1, 915, 5);
+                break;
+            case(1):
+                DriveFrontBackDistance(driveBaseData, 1, 1520, 5);
+                DriveLeftRightDistance(driveBaseData, 1, 600, 5);
+                break;
+            case(2):
+                DriveFrontBackDistance(driveBaseData, 1, 2130, 5);
+                break;
+        }
 
+        sleep(100);
+
+        SetServoPosition(wobbleServo.servo, wobbleServo.startPosition);
+
+        sleep(100);
+
+        telemetry.addLine("Square = " + square);
+        telemetry.update();
     }
 }

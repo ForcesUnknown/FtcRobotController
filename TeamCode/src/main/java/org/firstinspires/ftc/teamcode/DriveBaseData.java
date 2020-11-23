@@ -39,21 +39,19 @@ public class DriveBaseData {
 
     public void SetPower(double power)
     {
-        double angle = power * 576;
-
-        leftFront.setVelocity(angle, AngleUnit.DEGREES);
-        rightFront.setVelocity(angle, AngleUnit.DEGREES);
-        leftBack.setVelocity(angle, AngleUnit.DEGREES);
-        rightBack.setVelocity(angle, AngleUnit.DEGREES);
+        leftFront.setPower(power);
+        rightFront.setPower(power);
+        leftBack.setPower(power);
+        rightBack.setPower(power);
 
     }
 
     public void SetPower(double powerLF, double powerRF, double powerLB, double powerRB)
     {
-        leftFront.setVelocity(powerLF * 576, AngleUnit.DEGREES);
-        rightFront.setVelocity(powerRF * 576, AngleUnit.DEGREES);
-        leftBack.setVelocity(powerLB * 576, AngleUnit.DEGREES);
-        rightBack.setVelocity(powerRB * 576, AngleUnit.DEGREES);
+        leftFront.setPower(powerLF);
+        rightFront.setPower(powerRF);
+        leftBack.setPower(powerLB);
+        rightBack.setPower(powerRB);
     }
 
     public void SetMode(DcMotor.RunMode runMode)
