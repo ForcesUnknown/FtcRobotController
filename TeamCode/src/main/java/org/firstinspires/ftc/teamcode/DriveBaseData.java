@@ -1,16 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
 public class DriveBaseData {
 
-    public DcMotor leftFront = null;
-    public DcMotor rightFront = null;
-    public DcMotor leftBack = null;
-    public DcMotor rightBack = null;
+    public DcMotorEx leftFront = null;
+    public DcMotorEx rightFront = null;
+    public DcMotorEx leftBack = null;
+    public DcMotorEx rightBack = null;
 
     public double wheelCircumference;
     public double ticksPerCentimeter;
@@ -23,10 +26,10 @@ public class DriveBaseData {
         this.wheelCircumference = wheelDiameter * Math.PI;
         ticksPerCentimeter = encoderTicksPerRotation / wheelCircumference;
 
-        this.leftFront = hardwareMap.get(DcMotor.class, leftFront);
-        this.rightFront = hardwareMap.get(DcMotor.class, rightFront);
-        this.leftBack = hardwareMap.get(DcMotor.class, leftBack);
-        this.rightBack = hardwareMap.get(DcMotor.class, rightBack);
+        this.leftFront = hardwareMap.get(DcMotorEx.class, leftFront);
+        this.rightFront = hardwareMap.get(DcMotorEx.class, rightFront);
+        this.leftBack = hardwareMap.get(DcMotorEx.class, leftBack);
+        this.rightBack = hardwareMap.get(DcMotorEx.class, rightBack);
 
         this.leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         this.rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -36,18 +39,21 @@ public class DriveBaseData {
 
     public void SetPower(double power)
     {
-        leftFront.setPower(power);
-        rightFront.setPower(power);
-        leftBack.setPower(power);
-        rightBack.setPower(power);
+        double angle = power * 576;
+
+        leftFront.setVelocity(angle, AngleUnit.DEGREES);
+        rightFront.setVelocity(angle, AngleUnit.DEGREES);
+        leftBack.setVelocity(angle, AngleUnit.DEGREES);
+        rightBack.setVelocity(angle, AngleUnit.DEGREES);
+
     }
 
     public void SetPower(double powerLF, double powerRF, double powerLB, double powerRB)
     {
-        leftFront.setPower(powerLF);
-        rightFront.setPower(powerRF);
-        leftBack.setPower(powerLB);
-        rightBack.setPower(powerRB);
+        leftFront.setVelocity(powerLF * 576, AngleUnit.DEGREES);
+        rightFront.setVelocity(powerRF * 576, AngleUnit.DEGREES);
+        leftBack.setVelocity(powerLB * 576, AngleUnit.DEGREES);
+        rightBack.setVelocity(powerRB * 576, AngleUnit.DEGREES);
     }
 
     public void SetMode(DcMotor.RunMode runMode)

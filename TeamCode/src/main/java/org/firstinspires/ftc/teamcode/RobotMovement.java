@@ -5,7 +5,7 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
@@ -17,31 +17,31 @@ import com.qualcomm.robotcore.util.Range;
 public class RobotMovement extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftBack;
-    private DcMotor leftFront;
-    private DcMotor rightBack;
-    private DcMotor rightFront;
+    private DcMotorEx leftBack;
+    private DcMotorEx leftFront;
+    private DcMotorEx rightBack;
+    private DcMotorEx rightFront;
 
-    private DcMotor intakeMotor;
-    private DcMotor shooterMotor;
+    private DcMotorEx intakeMotor;
+    private DcMotorEx shooterMotor;
 
     private NormalizedColorSensor colourSensor;
 
     @Override
     public void init()
     {
-        leftBack = hardwareMap.get(DcMotor.class, "LeftBack");
-        leftFront = hardwareMap.get(DcMotor.class,"LeftFront");
-        rightBack = hardwareMap.get(DcMotor.class,"RightBack");
-        rightFront = hardwareMap.get(DcMotor.class,"RightFront");
+        leftBack = hardwareMap.get(DcMotorEx.class, "LeftBack");
+        leftFront = hardwareMap.get(DcMotorEx.class,"LeftFront");
+        rightBack = hardwareMap.get(DcMotorEx.class,"RightBack");
+        rightFront = hardwareMap.get(DcMotorEx.class,"RightFront");
 
-        intakeMotor = hardwareMap.get(DcMotor.class, "IntakeMotor");
-        shooterMotor = hardwareMap.get(DcMotor.class, "ShooterMotor");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
+        shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
 
         colourSensor = hardwareMap.get(NormalizedColorSensor.class, "ColourSensor");
 
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightBack.setDirection(DcMotorEx.Direction.REVERSE);
+        rightFront.setDirection(DcMotorEx.Direction.REVERSE);
     }
 
     @Override
