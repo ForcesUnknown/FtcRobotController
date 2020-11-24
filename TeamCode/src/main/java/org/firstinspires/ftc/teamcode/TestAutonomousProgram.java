@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.LegacyModule;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -30,7 +31,7 @@ public class TestAutonomousProgram extends RobotFunctions
 
 
     private IMUData imuData;
-    private TouchSensor touchSensor;
+    private DigitalChannel touchSensor;
 
     private NormalizedColorSensor colourSensor;
 
@@ -50,9 +51,11 @@ public class TestAutonomousProgram extends RobotFunctions
 
         colourSensor = hardwareMap.get(NormalizedColorSensor.class, "ColourSensor");
 
-        wobbleServo = new ServoData("WobbleServoArm", 0.6, 0.3, hardwareMap);
-        measureServo = new ServoData("TouchServoArm", 1.0, 1.0, hardwareMap);
-        touchSensor = hardwareMap.get(TouchSensor.class, "TouchSensor");
+        wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD); //.85
+
+        measureServo = new ServoData("TouchServoArm", 0.1, 0.5, hardwareMap, Servo.Direction.REVERSE);
+        touchSensor = hardwareMap.get(DigitalChannel.class, "TouchSensor");
+        touchSensor.setMode(DigitalChannel.Mode.INPUT);
 
         imuData = new IMUData("imu", hardwareMap);
 
@@ -61,6 +64,16 @@ public class TestAutonomousProgram extends RobotFunctions
         telemetry.update();
 
         waitForStart();
+
+        while(opModeIsActive())
+        {
+            if(touchSensor.getState())
+            {
+                telemetry.addLine("Time " + runtime.time());
+                telemetry.update();
+            }
+        }
+
         runtime.reset();
 
         SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
@@ -75,7 +88,7 @@ public class TestAutonomousProgram extends RobotFunctions
 
         DriveLeftRightColour(driveBaseData, 1, range, colourSensor, 100);*/
         double servoPosition = measureServo.startPosition;
-        while(!touchSensor.isPressed())
+        while(!touchSensor.getState())
         {
             servoPosition -= (measureServo.targetPosition - measureServo.startPosition) / 15;
             SetServoPosition(measureServo.servo, servoPosition);
