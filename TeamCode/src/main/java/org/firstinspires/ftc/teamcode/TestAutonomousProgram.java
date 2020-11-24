@@ -36,7 +36,7 @@ public class TestAutonomousProgram extends RobotFunctions
     private NormalizedColorSensor colourSensor;
 
 
-    private int square;
+    private int square = 0;
     private int aPosition, bPosition, cPosition;
 
     @Override
@@ -53,7 +53,7 @@ public class TestAutonomousProgram extends RobotFunctions
 
         wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD); //.85
 
-        measureServo = new ServoData("TouchServoArm", 0.1, 0.5, hardwareMap, Servo.Direction.REVERSE);
+        measureServo = new ServoData("TouchServoArm", 0.1, 0.5, hardwareMap, Servo.Direction.FORWARD);
         touchSensor = hardwareMap.get(DigitalChannel.class, "TouchSensor");
         touchSensor.setMode(DigitalChannel.Mode.INPUT);
 
@@ -65,20 +65,11 @@ public class TestAutonomousProgram extends RobotFunctions
 
         waitForStart();
 
-        while(opModeIsActive())
-        {
-            if(touchSensor.getState())
-            {
-                telemetry.addLine("Time " + runtime.time());
-                telemetry.update();
-            }
-        }
-
         runtime.reset();
 
         SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
 
-        sleep(100);
+        sleep(2000);
 
         //Drive forward
         DriveFrontBackDistance(driveBaseData, 1, 765, 5);
@@ -88,15 +79,19 @@ public class TestAutonomousProgram extends RobotFunctions
 
         DriveLeftRightColour(driveBaseData, 1, range, colourSensor, 100);*/
         double servoPosition = measureServo.startPosition;
-        while(!touchSensor.getState())
+        while(touchSensor.getState())
         {
-            servoPosition -= (measureServo.targetPosition - measureServo.startPosition) / 15;
+            servoPosition += 0.1;
             SetServoPosition(measureServo.servo, servoPosition);
-            sleep(30);
+            sleep(1000);
         }
-        if (Range(measureServo.servo.getPosition(), aPosition, 0.15))
+
+        SetServoPosition(measureServo.servo, 0.1);
+        sleep(1000);
+
+        if (servoPosition < 0.5)
             square = 0;
-        else if(Range(measureServo.servo.getPosition(), bPosition, 0.15))
+        else if(servoPosition < 0.7)
             square = 1;
         else
             square = 2;
@@ -104,14 +99,14 @@ public class TestAutonomousProgram extends RobotFunctions
         switch(square)
         {
             case(0):
-                DriveFrontBackDistance(driveBaseData, 1, 915, 5);
+                DriveFrontBackDistance(driveBaseData, 1, 600, 5);
                 break;
             case(1):
-                DriveFrontBackDistance(driveBaseData, 1, 1520, 5);
+                DriveFrontBackDistance(driveBaseData, 1, 1400, 5);
                 DriveLeftRightDistance(driveBaseData, 1, 600, 5);
                 break;
             case(2):
-                DriveFrontBackDistance(driveBaseData, 1, 2130, 5);
+                DriveFrontBackDistance(driveBaseData, 1, 1800, 5);
                 break;
         }
 
