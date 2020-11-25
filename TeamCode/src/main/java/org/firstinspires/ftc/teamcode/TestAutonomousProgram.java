@@ -49,7 +49,7 @@ public class TestAutonomousProgram extends RobotFunctions
 
         colourSensor = hardwareMap.get(NormalizedColorSensor.class, "ColourSensor");
 
-        wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD); //.85
+        wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD);
 
         measureServo = new ServoData("TouchServoArm", 0.1, 0.5, hardwareMap, Servo.Direction.FORWARD);
         touchSensor = hardwareMap.get(DigitalChannel.class, "TouchSensor");
