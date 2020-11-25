@@ -13,8 +13,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-import java.util.Vector;
-
 /**
  This is a test op mode for season 2020/2021: Ultimate Goal
  Created on September 13th 2020
