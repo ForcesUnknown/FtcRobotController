@@ -24,6 +24,9 @@ public class DriverControl extends RobotFunctions
     private boolean wobbleDown;
     private boolean ringFlick;
 
+    private double lastRingFlick;
+    private double ringFlickTime = 1500; // -> change this value (in ms) to change how quickly you can load the shooter.
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -47,53 +50,61 @@ public class DriverControl extends RobotFunctions
 
         runtime.reset();
 
-        double leftY = gamepad1.left_stick_y; //driving
-        double leftX = gamepad1.left_stick_x;
-        double rightX  =  gamepad1.right_stick_x; //turning
+        while(opModeIsActive()) {
 
-        double leftBackPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0);
-        double leftFrontPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0);
-        double rightBackPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0);
-        double rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0);
+            double leftY = gamepad1.left_stick_y; //driving
+            double leftX = gamepad1.left_stick_x;
+            double rightX = gamepad1.right_stick_x; //turning
 
-        driveBaseData.SetPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+            double leftBackPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0);
+            double leftFrontPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0);
+            double rightBackPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0);
+            double rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0);
 
-        int shooterPower = Range.clip((int)gamepad1.right_trigger - (int)gamepad1.left_trigger, -1, 1);
+            driveBaseData.SetPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
-        shooterMotor.setPower(shooterPower);
+            int shooterPower = Range.clip((int)gamepad1.right_trigger, -1, 1);
 
-        int intakePower = 0;
+            shooterMotor.setPower(shooterPower);
 
-        if(gamepad1.right_bumper)
-            intakePower = 1;
-        else if (gamepad1.left_bumper)
-            intakePower = -1;
+            int intakePower = 0;
 
-        intakeMotor.setPower(intakePower);
+            if (gamepad1.right_bumper)
+                intakePower = 1;
+            else if (gamepad1.left_bumper)
+                intakePower = -1;
 
-        if(gamepad1.left_trigger > 0)
-            ringFlick = !ringFlick;
+            intakeMotor.setPower(intakePower);
 
-        if(ringFlick)
-            SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
-        else
-            SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+            if (gamepad1.left_trigger > 0 && lastRingFlick + ringFlickTime < runtime.milliseconds())
+            {
+                lastRingFlick = runtime.milliseconds();
+                ringFlick = true;
+            }
 
-        if(gamepad1.a)
-            wobbleDown = !wobbleDown;
+            if(lastRingFlick + (ringFlickTime / 2) < runtime.milliseconds())
+                ringFlick = false;
 
-        if(wobbleDown)
-            SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
-        else
-            SetServoPosition(wobbleServo.servo, wobbleServo.startPosition);
+            if (ringFlick)
+                SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
+            else
+                SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+
+            if (gamepad1.a)
+                wobbleDown = !wobbleDown;
+
+            if (wobbleDown)
+                SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
+            else
+                SetServoPosition(wobbleServo.servo, wobbleServo.startPosition);
 
 
+            telemetry.addLine(runtime.toString());
 
-        telemetry.addLine(runtime.toString());
 
-
-        telemetry.addData("Runtime: ", runtime.time());
-        telemetry.update();
+            telemetry.addData("Runtime: ", runtime.time());
+            telemetry.update();
+        }
 
         //Drive forward
     }
