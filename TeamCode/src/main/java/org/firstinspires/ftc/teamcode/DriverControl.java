@@ -40,7 +40,7 @@ public class DriverControl extends RobotFunctions
         shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
 
         wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD);
-        ringServoArm = new ServoData("RingServoArm", 0.0, 1.0, hardwareMap, Servo.Direction.FORWARD);
+        ringServoArm = new ServoData("RingServoArm", 0.0, 0.6, hardwareMap, Servo.Direction.FORWARD);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
