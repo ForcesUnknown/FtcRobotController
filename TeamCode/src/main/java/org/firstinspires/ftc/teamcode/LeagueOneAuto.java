@@ -40,7 +40,12 @@ public class LeagueOneAuto extends RobotFunctions
         sleep(2000);
 
         //Drive forward
-        DriveFrontBackDistance(driveBaseData, 1, 1550, 10);
+        DriveFrontBackDistance(driveBaseData, 1, 1700, 10);
+
+        driveBaseData.SetPower(1, -1, 1, -1);
+        sleep(1000);
+        driveBaseData.SetPower(0, 0, 0, 0);
+
     }
 }
 

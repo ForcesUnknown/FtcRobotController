@@ -63,7 +63,7 @@ public class DriverControl extends RobotFunctions
 
             driveBaseData.SetPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
-            int shooterPower = Range.clip((int)gamepad1.right_trigger, -1, 1);
+            double shooterPower = Range.clip(gamepad1.right_trigger, 0, 0.6);
 
             shooterMotor.setPower(shooterPower);
 
