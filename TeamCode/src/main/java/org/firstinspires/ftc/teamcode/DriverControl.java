@@ -52,7 +52,7 @@ public class DriverControl extends RobotFunctions
 
         while(opModeIsActive()) {
 
-            double leftY = gamepad1.left_stick_y; //driving
+            double leftY = -gamepad1.left_stick_y; //driving
             double leftX = gamepad1.left_stick_x;
             double rightX = gamepad1.right_stick_x; //turning
 

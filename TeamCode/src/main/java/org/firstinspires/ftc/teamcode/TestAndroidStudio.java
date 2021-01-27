@@ -19,5 +19,14 @@ public class TestAndroidStudio extends LinearOpMode
 
         telemetry.addLine("Started");
         telemetry.update();
+
+        sleep(1000);
+
+
+        telemetry.addLine("Doing Stuff");
+        telemetry.update();
+
+        sleep(10000);
+
     }
 }

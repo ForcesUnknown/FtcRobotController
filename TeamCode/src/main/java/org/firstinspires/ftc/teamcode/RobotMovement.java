@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="DriverControl", group="TeleOp")
+@TeleOp(name="RobotMovement", group="TeleOp")
 public class RobotMovement extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
