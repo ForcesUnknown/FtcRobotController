@@ -40,7 +40,7 @@ public class DriverControl extends RobotFunctions
         shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
 
         wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD);
-        ringServoArm = new ServoData("RingServoArm", 0.0, 0.6, hardwareMap, Servo.Direction.FORWARD);
+        ringServoArm = new ServoData("RingServoArm", 0.0, 0.2, hardwareMap, Servo.Direction.FORWARD);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -52,7 +52,7 @@ public class DriverControl extends RobotFunctions
 
         while(opModeIsActive()) {
 
-            double leftY = -gamepad1.left_stick_y; //driving
+            double leftY = gamepad1.left_stick_y; //driving
             double leftX = gamepad1.left_stick_x;
             double rightX = gamepad1.right_stick_x; //turning
 
@@ -63,7 +63,7 @@ public class DriverControl extends RobotFunctions
 
             driveBaseData.SetPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
 
-            double shooterPower = Range.clip(gamepad1.right_trigger, 0, 0.6);
+            double shooterPower = Range.clip(gamepad1.right_trigger, 0, 0.66);
 
             shooterMotor.setPower(shooterPower);
 
@@ -84,7 +84,6 @@ public class DriverControl extends RobotFunctions
 
             if(lastRingFlick + (ringFlickTime / 2) < runtime.milliseconds())
                 ringFlick = false;
-
             if (ringFlick)
                 SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
             else

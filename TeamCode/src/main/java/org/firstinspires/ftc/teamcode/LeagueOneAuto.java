@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="LeagueOneAuto", group="Autonomous")
-@Disabled
 public class LeagueOneAuto extends RobotFunctions
 {
     private ElapsedTime runtime = new ElapsedTime();
@@ -43,11 +41,10 @@ public class LeagueOneAuto extends RobotFunctions
 
         //Drive forward
         DriveFrontBackDistance(driveBaseData, 1, 1700, 10);
-
+        
         driveBaseData.SetPower(1, -1, 1, -1);
         sleep(1000);
-        driveBaseData.SetPower(0, 0, 0, 0);
-
+        driveBaseData.SetPower(0,0,0,0);
     }
 }
 
