@@ -112,15 +112,17 @@ public class DriverControl extends RobotFunctions
 
             if (wobbleDown)
             {
+                telemetry.addLine("Wobble Down");
+                telemetry.update();
+
                 wobbleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-
-                wobbleMotor.setTargetPosition(wobbleArmDown);
-
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                wobbleMotor.setTargetPosition(wobbleMotor.getCurrentPosition() + wobbleArmDown);
                 wobbleMotor.setPower(1);
 
-                while (opModeIsActive() && wobbleMotor.isBusy())
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                while (wobbleMotor.isBusy())
                 {
                     telemetry.addLine("Motor: Running");
 
