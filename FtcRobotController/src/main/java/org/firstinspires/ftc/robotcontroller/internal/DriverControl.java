@@ -21,7 +21,7 @@ public class DriverControl extends RobotFunctions
     private ServoData wobbleServo;
     private ServoData ringServoArm;
 
-    private boolean wobbleDown;
+    private WobbleState wobbleDown;
     private boolean wobbleGrab;
     private boolean ringFlick;
 
@@ -46,7 +46,7 @@ public class DriverControl extends RobotFunctions
         wobbleMotor = hardwareMap.get(DcMotorEx.class, "WobbleMotor");
 
         wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        wobbleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD);
         ringServoArm = new ServoData("RingServoArm", 0.0, 0.2, hardwareMap, Servo.Direction.FORWARD);
@@ -105,15 +105,18 @@ public class DriverControl extends RobotFunctions
 
             //Wobble ------------------------------------------------------------------
             if (gamepad1.a)
-                wobbleDown = !wobbleDown;
+                wobbleDown = WobbleState.DOWN;
+            if (gamepad1.y)
+                wobbleDown = WobbleState.UP;
 
             if(gamepad1.b)
                 wobbleGrab = !wobbleGrab;
 
-            if (wobbleDown)
+            if (wobbleDown == WobbleState.DOWN)
             {
                 telemetry.addLine("Wobble Down");
                 telemetry.update();
+                wobbleDown = WobbleState.NONE;
 
                 wobbleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -122,7 +125,7 @@ public class DriverControl extends RobotFunctions
 
                 wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                while (wobbleMotor.isBusy())
+                /*while (wobbleMotor.isBusy())
                 {
                     telemetry.addLine("Motor: Running");
 
@@ -132,11 +135,11 @@ public class DriverControl extends RobotFunctions
                 wobbleMotor.setPower(0);
 
                 wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+*/
                 //TurnMotorDistance(wobbleMotor, 0.5, 1, 5, 75, 300);
             }
                 //wobbleMotor.setTargetPosition(wobbleArmDown);
-            else
+            else if(wobbleDown == WobbleState.UP)
             {
 
                 /*
