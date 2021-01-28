@@ -118,6 +118,8 @@ public class DriverControl extends RobotFunctions
 
             if (gamepad1.a)
             {
+                telemetry.addLine("Position = " + wobbleMotor.getCurrentPosition());
+                telemetry.update();
                 wobbleMotor.setPower(1);
             }
             else if(gamepad1.y)
