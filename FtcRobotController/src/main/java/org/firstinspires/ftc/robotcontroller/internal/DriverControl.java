@@ -120,11 +120,11 @@ public class DriverControl extends RobotFunctions
             {
                 telemetry.addLine("Position = " + wobbleMotor.getCurrentPosition());
                 telemetry.update();
-                wobbleMotor.setPower(1);
+                wobbleMotor.setPower(0.1);
             }
             else if(gamepad1.y)
             {
-                wobbleMotor.setPower(-1);
+                wobbleMotor.setPower(-0.1);
             }
             else
             {

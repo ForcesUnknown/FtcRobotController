@@ -31,6 +31,9 @@ public class LeagueOneAuto extends RobotFunctions
 
         driveBaseData.SetMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
+
+
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -39,7 +42,6 @@ public class LeagueOneAuto extends RobotFunctions
 
         runtime.reset();
 
-        SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
 
         sleep(2000);
 
