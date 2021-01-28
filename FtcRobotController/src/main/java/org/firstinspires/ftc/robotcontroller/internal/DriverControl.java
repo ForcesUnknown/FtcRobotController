@@ -39,7 +39,7 @@ public class DriverControl extends RobotFunctions
         telemetry.addData("Status", "Initializing");
         telemetry.update();
 
-        driveBaseData = new DriveBaseData("WobbleMotor","RightFront","LeftBack", "RightBack", 75, 1440, hardwareMap);
+        driveBaseData = new DriveBaseData("LeftFront","RightFront","LeftBack", "RightBack", 75, 1440, hardwareMap);
 
         intakeMotor = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
         shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
@@ -112,7 +112,7 @@ public class DriverControl extends RobotFunctions
 
             if (wobbleDown)
             {
-                /*wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                wobbleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
                 wobbleMotor.setTargetPosition(wobbleArmDown);
@@ -129,7 +129,7 @@ public class DriverControl extends RobotFunctions
 
                 wobbleMotor.setPower(0);
 
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 //TurnMotorDistance(wobbleMotor, 0.5, 1, 5, 75, 300);
             }
