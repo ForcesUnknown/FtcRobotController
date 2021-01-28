@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.robotcontroller.internal;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,15 +16,22 @@ public class DriverControl extends RobotFunctions
 
     private DcMotorEx intakeMotor = null;
     private DcMotorEx shooterMotor = null;
+    private DcMotor wobbleMotor = null;
+
 
     private ServoData wobbleServo;
     private ServoData ringServoArm;
 
     private boolean wobbleDown;
+    private boolean wobbleGrab;
     private boolean ringFlick;
 
     private double lastRingFlick;
     private double ringFlickTime = 1500; // -> change this value (in ms) to change how quickly you can load the shooter.
+
+    //change these for dcmotor position
+    private final int wobbleArmUp = 0;
+    private final int wobbleArmDown = 1;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -36,6 +44,11 @@ public class DriverControl extends RobotFunctions
 
         intakeMotor = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
         shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
+        wobbleMotor = hardwareMap.get(DcMotor.class, "WobbleMotor");
+
+        wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wobbleMotor.setPower(0.5f);
+        wobbleMotor.setTargetPosition(wobbleArmUp);
 
         wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD);
         ringServoArm = new ServoData("RingServoArm", 0.0, 0.2, hardwareMap, Servo.Direction.FORWARD);
@@ -49,8 +62,9 @@ public class DriverControl extends RobotFunctions
         runtime.reset();
 
         while(opModeIsActive()) {
+            //Driving ----------------------------------------------------------------------------------
 
-            double leftY = gamepad1.left_stick_y; //driving
+            double leftY = -gamepad1.left_stick_y; //driving
             double leftX = gamepad1.left_stick_x;
             double rightX = gamepad1.right_stick_x; //turning
 
@@ -60,6 +74,8 @@ public class DriverControl extends RobotFunctions
             double rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0);
 
             driveBaseData.SetPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+
+            //Shooter/Intake------------------------------------------------------------------------
 
             double shooterPower = Range.clip(gamepad1.right_trigger, 0, 0.66);
 
@@ -74,6 +90,7 @@ public class DriverControl extends RobotFunctions
 
             intakeMotor.setPower(intakePower);
 
+            //Ring Flick --------------------------------------------------------------------------------
             if (gamepad1.left_trigger > 0 && lastRingFlick + ringFlickTime < runtime.milliseconds())
             {
                 lastRingFlick = runtime.milliseconds();
@@ -87,10 +104,19 @@ public class DriverControl extends RobotFunctions
             else
                 SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
 
+            //Wobble ------------------------------------------------------------------
             if (gamepad1.a)
                 wobbleDown = !wobbleDown;
 
+            if(gamepad1.b)
+                wobbleGrab = !wobbleGrab;
+
             if (wobbleDown)
+                wobbleMotor.setTargetPosition(wobbleArmDown);
+            else
+                wobbleMotor.setTargetPosition(wobbleArmUp);
+
+            if (wobbleGrab)
                 SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
             else
                 SetServoPosition(wobbleServo.servo, wobbleServo.startPosition);
