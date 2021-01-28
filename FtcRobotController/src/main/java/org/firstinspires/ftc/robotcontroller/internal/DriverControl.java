@@ -16,8 +16,7 @@ public class DriverControl extends RobotFunctions
 
     private DcMotorEx intakeMotor = null;
     private DcMotorEx shooterMotor = null;
-    private DcMotor wobbleMotor = null;
-
+    private DcMotorEx wobbleMotor = null;
 
     private ServoData wobbleServo;
     private ServoData ringServoArm;
@@ -44,7 +43,7 @@ public class DriverControl extends RobotFunctions
 
         intakeMotor = hardwareMap.get(DcMotorEx.class, "IntakeMotor");
         shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
-        wobbleMotor = hardwareMap.get(DcMotor.class, "WobbleMotor");
+        wobbleMotor = hardwareMap.get(DcMotorEx.class, "WobbleMotor");
 
         wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wobbleMotor.setPower(0.5f);
