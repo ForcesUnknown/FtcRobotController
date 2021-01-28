@@ -61,25 +61,7 @@ public class DriverControl extends RobotFunctions
 
         telemetry.addLine("Wobble Down");
         telemetry.update();
-        wobbleDown = WobbleState.NONE;
 
-        wobbleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        wobbleMotor.setTargetPosition(wobbleMotor.getCurrentPosition() + wobbleArmDown);
-        wobbleMotor.setPower(1);
-
-        wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while (wobbleMotor.isBusy())
-        {
-            telemetry.addLine("Motor: Running");
-
-            telemetry.update();
-        }
-
-        wobbleMotor.setPower(0);
-
-        wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         while(opModeIsActive()) {
 
@@ -134,59 +116,18 @@ public class DriverControl extends RobotFunctions
             if(gamepad1.b)
                 wobbleGrab = !wobbleGrab;
 
-            if (wobbleDown == WobbleState.DOWN)
+            if (gamepad1.a)
             {
-                telemetry.addLine("Wobble Down");
-                telemetry.update();
-                wobbleDown = WobbleState.NONE;
-
-                wobbleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                wobbleMotor.setTargetPosition(wobbleMotor.getCurrentPosition() + wobbleArmDown);
                 wobbleMotor.setPower(1);
-
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                /*while (wobbleMotor.isBusy())
-                {
-                    telemetry.addLine("Motor: Running");
-
-                    telemetry.update();
-                }
-
-                wobbleMotor.setPower(0);
-
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-*/
-                //TurnMotorDistance(wobbleMotor, 0.5, 1, 5, 75, 300);
             }
-                //wobbleMotor.setTargetPosition(wobbleArmDown);
-            else if(wobbleDown == WobbleState.UP)
+            else if(gamepad1.y)
             {
-
-                /*
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-                wobbleMotor.setTargetPosition(wobbleArmUp);
-
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                wobbleMotor.setPower(1);
-
-                while (opModeIsActive() && wobbleMotor.isBusy())
-                {
-                    telemetry.addLine("Motor: Running");
-
-                    telemetry.update();
-                }
-
-                wobbleMotor.setPower(0);
-
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                 */
+                wobbleMotor.setPower(-1);
             }
-                //wobbleMotor.setTargetPosition(wobbleArmUp);
+            else
+            {
+                wobbleMotor.setPower(0);
+            }
 
             if (wobbleGrab)
                 SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
