@@ -1,9 +1,13 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.robotcontroller.internal;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcontroller.internal.DriveBaseData;
+import org.firstinspires.ftc.robotcontroller.internal.RobotFunctions;
+import org.firstinspires.ftc.robotcontroller.internal.ServoData;
 
 @Autonomous(name="LeagueOneAuto", group="Autonomous")
 public class LeagueOneAuto extends RobotFunctions

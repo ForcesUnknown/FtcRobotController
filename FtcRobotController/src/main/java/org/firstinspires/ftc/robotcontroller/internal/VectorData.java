@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.robotcontroller.internal;
 
 public class VectorData
 {
