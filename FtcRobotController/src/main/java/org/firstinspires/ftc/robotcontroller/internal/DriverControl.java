@@ -112,7 +112,7 @@ public class DriverControl extends RobotFunctions
 
             if (wobbleDown)
             {
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                /*wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
                 wobbleMotor.setTargetPosition(wobbleArmDown);
@@ -129,13 +129,15 @@ public class DriverControl extends RobotFunctions
 
                 wobbleMotor.setPower(0);
 
-                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
 
-                //TurnMotorDistance(wobbleMotor, 0.5, 1, );
+                TurnMotorDistance(wobbleMotor, 0.5, 1, 5, 3.14, 300);
             }
                 //wobbleMotor.setTargetPosition(wobbleArmDown);
             else
             {
+                
+                /*
                 wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
@@ -154,6 +156,8 @@ public class DriverControl extends RobotFunctions
                 wobbleMotor.setPower(0);
 
                 wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                 */
             }
                 //wobbleMotor.setTargetPosition(wobbleArmUp);
 
