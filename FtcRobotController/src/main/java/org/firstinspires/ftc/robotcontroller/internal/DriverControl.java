@@ -45,9 +45,8 @@ public class DriverControl extends RobotFunctions
         shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
         wobbleMotor = hardwareMap.get(DcMotorEx.class, "WobbleMotor");
 
-        wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        wobbleMotor.setPower(0.5f);
-        wobbleMotor.setTargetPosition(wobbleArmUp);
+        wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD);
         ringServoArm = new ServoData("RingServoArm", 0.0, 0.2, hardwareMap, Servo.Direction.FORWARD);
@@ -61,6 +60,7 @@ public class DriverControl extends RobotFunctions
         runtime.reset();
 
         while(opModeIsActive()) {
+
             //Driving ----------------------------------------------------------------------------------
 
             double leftY = -gamepad1.left_stick_y; //driving
@@ -111,9 +111,51 @@ public class DriverControl extends RobotFunctions
                 wobbleGrab = !wobbleGrab;
 
             if (wobbleDown)
+            {
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
                 wobbleMotor.setTargetPosition(wobbleArmDown);
+
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                wobbleMotor.setPower(1);
+
+                while (opModeIsActive() && wobbleMotor.isBusy())
+                {
+                    telemetry.addLine("Motor: Running");
+
+                    telemetry.update();
+                }
+
+                wobbleMotor.setPower(0);
+
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                //TurnMotorDistance(wobbleMotor, 0.5, 1, );
+            }
+                //wobbleMotor.setTargetPosition(wobbleArmDown);
             else
+            {
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
                 wobbleMotor.setTargetPosition(wobbleArmUp);
+
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                wobbleMotor.setPower(1);
+
+                while (opModeIsActive() && wobbleMotor.isBusy())
+                {
+                    telemetry.addLine("Motor: Running");
+
+                    telemetry.update();
+                }
+
+                wobbleMotor.setPower(0);
+
+                wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+                //wobbleMotor.setTargetPosition(wobbleArmUp);
 
             if (wobbleGrab)
                 SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
