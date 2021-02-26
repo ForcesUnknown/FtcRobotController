@@ -466,6 +466,12 @@ public abstract class RobotFunctions extends LinearOpMode
     }
 
     //endregion
+
+    //region Camera
+
+
+
+    //endregion
 }
 
 

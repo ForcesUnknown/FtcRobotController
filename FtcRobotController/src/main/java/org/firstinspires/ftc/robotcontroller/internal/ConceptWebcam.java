@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.robotcontroller.internal;
 
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
@@ -74,7 +74,6 @@ import java.util.concurrent.TimeUnit;
  * using Media Transfer; ADB; etc)
  */
 @TeleOp(name="Concept: Webcam", group ="Concept")
-@Disabled
 public class ConceptWebcam extends LinearOpMode {
 
     //----------------------------------------------------------------------------------------------
@@ -319,3 +318,4 @@ public class ConceptWebcam extends LinearOpMode {
         }
     }
 }
+

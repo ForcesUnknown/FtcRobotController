@@ -128,7 +128,7 @@ public class DriverControl extends RobotFunctions
             }
             else
             {
-                wobbleMotor.setPower(0);
+                wobbleMotor.setPower(0.0000001);
             }
 
             if (wobbleGrab)
