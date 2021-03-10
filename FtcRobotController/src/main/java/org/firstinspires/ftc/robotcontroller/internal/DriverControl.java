@@ -3,9 +3,13 @@ package org.firstinspires.ftc.robotcontroller.internal;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name="Driver Control", group="TeleOp")
 public class DriverControl extends RobotFunctions
@@ -14,28 +18,32 @@ public class DriverControl extends RobotFunctions
 
     private DriveBaseData driveBaseData = null;
 
+    private IMUData imuData = null;
+
     private DcMotorEx intakeMotor = null;
     private DcMotorEx shooterMotor = null;
     private DcMotorEx wobbleMotor = null;
 
-    private ServoData wobbleServo;
-    private ServoData ringServoArm;
+    private ServoData wobbleServo = null;
+    private ServoData ringServoArm = null;
 
-    private WobbleState wobbleDown;
+    private DriveControlState driveState = DriveControlState.DRIVING;
+    private WobbleState wobbleState = WobbleState.NOTHING;
     private boolean wobbleGrab;
+    private boolean shooterOn;
     private boolean ringFlick;
 
     private double lastRingFlick;
     private double ringFlickTime = 1500; // -> change this value (in ms) to change how quickly you can load the shooter.
 
-    //change these for dcmotor position
-    private final int wobbleArmUp = 0;
-    private final int wobbleArmDown = 1;
+    private final double highGoalDegreesPerSecond = 1;
+    private final double powerShotDegreesPerSecond = 0.75;
+    private double flyWheelSpeed;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
-
+        //region init
         telemetry.addData("Status", "Initializing");
         telemetry.update();
 
@@ -45,55 +53,142 @@ public class DriverControl extends RobotFunctions
         shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
         wobbleMotor = hardwareMap.get(DcMotorEx.class, "WobbleMotor");
 
+        wobbleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         wobbleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         wobbleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         wobbleServo = new ServoData("WobbleServoArm", 0.0, 0.5, hardwareMap, Servo.Direction.FORWARD);
         ringServoArm = new ServoData("RingServoArm", 0.0, 0.2, hardwareMap, Servo.Direction.FORWARD);
 
+        flyWheelSpeed = highGoalDegreesPerSecond;
+
+        imuData = new IMUData("imu", hardwareMap);
+
+
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        //endregion
 
         waitForStart();
 
         runtime.reset();
 
-        telemetry.addLine("Wobble Down");
-        telemetry.update();
-
-
         while(opModeIsActive()) {
 
-            //Driving ----------------------------------------------------------------------------------
+            //region driving
 
-            double leftY = -gamepad1.left_stick_y; //driving
-            double leftX = gamepad1.left_stick_x;
-            double rightX = gamepad1.right_stick_x; //turning
+            if(gamepad1.dpad_up)
+                driveState = DriveControlState.TURNING;
 
-            double leftBackPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0);
-            double leftFrontPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0);
-            double rightBackPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0);
-            double rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0);
+            if(driveState == DriveControlState.DRIVING)
+            {
+                if(gamepad1.x)
+                    driveState = DriveControlState.GRID;
 
-            driveBaseData.SetPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+                double leftY = -gamepad1.left_stick_y; //driving
+                double leftX = gamepad1.left_stick_x;
+                double rightX = gamepad1.right_stick_x; //turning
 
-            //Shooter/Intake------------------------------------------------------------------------
+                double leftBackPower = Range.clip(leftY - leftX + rightX, -1.0, 1.0);
+                double leftFrontPower = Range.clip(leftY + leftX + rightX, -1.0, 1.0);
+                double rightBackPower = Range.clip(leftY + leftX - rightX, -1.0, 1.0);
+                double rightFrontPower = Range.clip(leftY - leftX - rightX, -1.0, 1.0);
 
-            double shooterPower = Range.clip(gamepad1.right_trigger, 0, 0.66);
+                driveBaseData.SetPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+            }
+            else if(driveState == DriveControlState.GRID)
+            {
+                if(gamepad1.x)
+                    driveState = DriveControlState.DRIVING;
 
-            shooterMotor.setPower(shooterPower);
+                double leftY = -gamepad1.left_stick_y; //driving
+                double leftX = gamepad1.left_stick_x;
+                double rightX = gamepad1.right_stick_x; //turning
+
+                double leftBackPower = 0;
+                double leftFrontPower = 0;
+                double rightBackPower = 0;
+                double rightFrontPower = 0;
+
+                if(leftY > 0.3)
+                {
+                    leftBackPower = Range.clip(1 + rightX, -1.0, 1.0);
+                    leftFrontPower = Range.clip(1 + rightX, -1.0, 1.0);
+                    rightBackPower = Range.clip(1 - rightX, -1.0, 1.0);
+                    rightFrontPower = Range.clip(1 - leftX - rightX, -1.0, 1.0);
+                }
+                else if(leftY < -0.3)
+                {
+                    leftBackPower = Range.clip(-1 + rightX, -1.0, 1.0);
+                    leftFrontPower = Range.clip(-1 + rightX, -1.0, 1.0);
+                    rightBackPower = Range.clip(-1 - rightX, -1.0, 1.0);
+                    rightFrontPower = Range.clip(-1 - leftX - rightX, -1.0, 1.0);
+                }
+                else if(leftX > 0.3)
+                {
+                    leftBackPower = Range.clip(-1 + rightX, -1.0, 1.0);
+                    leftFrontPower = Range.clip(1 + rightX, -1.0, 1.0);
+                    rightBackPower = Range.clip(1 - rightX, -1.0, 1.0);
+                    rightFrontPower = Range.clip(-1 - leftX - rightX, -1.0, 1.0);
+                }
+                else if(leftX < -0.3)
+                {
+                    leftBackPower = Range.clip(1 + rightX, -1.0, 1.0);
+                    leftFrontPower = Range.clip(-1 + rightX, -1.0, 1.0);
+                    rightBackPower = Range.clip(-1 - rightX, -1.0, 1.0);
+                    rightFrontPower = Range.clip(1 - leftX - rightX, -1.0, 1.0);
+                }
+                else
+                {
+                    leftBackPower = 0;
+                    leftFrontPower = 0;
+                    rightBackPower = 0;
+                    rightFrontPower = 0;
+                }
+
+                driveBaseData.SetPower(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
+            }
+            else if(driveState == DriveControlState.TURNING)
+            {
+                TurnGyro(driveBaseData, 0.4, 0, imuData, 4);
+                driveState = DriveControlState.DRIVING;
+            }
+            //endregion
+
+            //region shooter/intake
+
+            if(gamepad1.dpad_down)
+                flyWheelSpeed = flyWheelSpeed == highGoalDegreesPerSecond ? powerShotDegreesPerSecond : highGoalDegreesPerSecond;
+
+            if(gamepad1.right_trigger > 0.1)
+                shooterOn = !shooterOn;
+            //region adjustments
+            /*if(gamepad1.left_stick_button)
+                flyWheelSpeed -= 0.0001;
+            if(gamepad1.right_stick_button)
+                flyWheelSpeed += 0.0001;*/
+            //endregion
+
+            if(/*shooterOn*/gamepad1.right_trigger > 0.1)
+                shooterMotor.setPower(flyWheelSpeed);
+            else
+                shooterMotor.setPower(0);
 
             int intakePower = 0;
 
             if (gamepad1.right_bumper)
-                intakePower = 1;
-            else if (gamepad1.left_bumper)
                 intakePower = -1;
+            else if (gamepad1.left_bumper)
+                intakePower = 1;
 
             intakeMotor.setPower(intakePower);
 
-            //Ring Flick --------------------------------------------------------------------------------
+            //endregion
+
+            //region ring flick
             if (gamepad1.left_trigger > 0 && lastRingFlick + ringFlickTime < runtime.milliseconds())
             {
                 lastRingFlick = runtime.milliseconds();
@@ -107,40 +202,30 @@ public class DriverControl extends RobotFunctions
             else
                 SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
 
-            //Wobble ------------------------------------------------------------------
-            if (gamepad1.a)
-                wobbleDown = WobbleState.DOWN;
-            if (gamepad1.y)
-                wobbleDown = WobbleState.UP;
+            //endregion
+
+            //region Wobble
 
             if(gamepad1.b)
                 wobbleGrab = !wobbleGrab;
 
-            if (gamepad1.a)
-            {
-                telemetry.addLine("Position = " + wobbleMotor.getCurrentPosition());
-                telemetry.update();
+            if(gamepad1.a)
                 wobbleMotor.setPower(0.1);
-            }
             else if(gamepad1.y)
-            {
                 wobbleMotor.setPower(-0.1);
-            }
             else
-            {
-                wobbleMotor.setPower(0.0000001);
-            }
+                wobbleMotor.setPower(0);
 
             if (wobbleGrab)
                 SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
             else
                 SetServoPosition(wobbleServo.servo, wobbleServo.startPosition);
 
-
-            telemetry.addLine(runtime.toString());
-
-
-            telemetry.addData("Runtime: ", runtime.time());
+            //endregion
+            telemetry.addLine("Angle: " + imuData.HeadingAngle());
+            telemetry.addData("Shooter Speed", (flyWheelSpeed == highGoalDegreesPerSecond ? "High Goal" : "Power Shot") + " Actual Speed: " + flyWheelSpeed);
+            telemetry.addData("Drive Type", driveState.toString());
+            telemetry.addData("Runtime", runtime.time());
             telemetry.update();
         }
 

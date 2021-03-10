@@ -10,25 +10,24 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class IMUData {
 
-    public BNO055IMU IMU;
+    public BNO055IMU imu;
 
     public IMUData(String IMU, HardwareMap hardwareMap)
     {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
 
-        this.IMU = hardwareMap.get(BNO055IMU.class, IMU);
-
-        this.IMU.initialize(parameters);
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
     }
 
     public Orientation Angles()
     {
-        return IMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES);
+        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
     }
 
     public double HeadingAngle()
     {
-        return IMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.YXZ, AngleUnit.DEGREES).firstAngle;
+        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 }

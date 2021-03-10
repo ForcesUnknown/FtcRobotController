@@ -43,8 +43,8 @@ public abstract class RobotFunctions extends LinearOpMode
     {
         VectorData move = AngleToVectorData(angle);
 
-        double left = Clamp((move.x + move.y) * power, -1, 1);
-        double right = Clamp((move.x - move.y) * power, -1, 1);
+        double left = Range.clip((move.x + move.y) * power, -1, 1);
+        double right = Range.clip((move.x - move.y) * power, -1, 1);
 
         driveBaseData.SetPower(left, right, right, left);
 
@@ -75,15 +75,13 @@ public abstract class RobotFunctions extends LinearOpMode
 
     //region Encoders
 
-    public void TurnMotorDistance(DcMotor motor, double power, double distance, double timeoutRedundancy, double wheelDiameter, int encoderTicks)
+    public void TurnMotorDistance(DcMotor motor, double power, double rotations, double timeoutRedundancy, int encoderTicks)
     {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         int encoderTicksPerRotation = encoderTicks;
-        double wheelCircumference = wheelDiameter * Math.PI;
-        double ticksPerCentimeter = encoderTicksPerRotation / wheelCircumference;
 
-        int newPosition = (int)(motor.getCurrentPosition() + Math.round(distance * ticksPerCentimeter));
+        int newPosition = (int)(motor.getCurrentPosition() + Math.round(encoderTicksPerRotation * rotations));
 
         motor.setTargetPosition(newPosition);
 
@@ -117,8 +115,13 @@ public abstract class RobotFunctions extends LinearOpMode
 
         VectorData move = AngleToVectorData(angle);
 
-        double left = Clamp((move.x + move.y), -1, 1);
-        double right = Clamp((move.x - move.y), -1, 1);
+        double left = Range.clip((move.x + move.y), -1, 1);
+        double right = Range.clip((move.x - move.y), -1, 1);
+
+        telemetry.addData("Move", left + ", " + right);
+        telemetry.update();
+
+    
 
         int newPositionLeftFront = (int)(driveBaseData.leftFront.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter * left));
         int newPositionRightFront = (int)(driveBaseData.rightFront.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter * right));
@@ -137,8 +140,11 @@ public abstract class RobotFunctions extends LinearOpMode
         {
             telemetry.addLine("Motors: Running");
 
+            telemetry.addData("Move", left + ", " + right);
+
             telemetry.update();
         }
+        telemetry.addData("Move", left + ", " + right);
 
         telemetry.addLine("Motors: Complete");
 
@@ -161,6 +167,8 @@ public abstract class RobotFunctions extends LinearOpMode
         int newPositionLeftBack = (int)(driveBaseData.leftBack.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
         int newPositionRightBack = (int)(driveBaseData.rightBack.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
 
+        int pos = driveBaseData.leftFront.getCurrentPosition();
+
         driveBaseData.SetTargetPosition(newPositionLeftFront, newPositionRightFront, newPositionLeftBack, newPositionRightBack);
 
         driveBaseData.SetMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -169,8 +177,9 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        while (opModeIsActive() && (driveBaseData.leftFront.isBusy() && driveBaseData.rightFront.isBusy() && driveBaseData.leftBack.isBusy() && driveBaseData.rightBack.isBusy()))
+        while (opModeIsActive() && runtime.time() < timeoutRedundancy && (driveBaseData.leftFront.isBusy() && driveBaseData.rightFront.isBusy() && driveBaseData.leftBack.isBusy() && driveBaseData.rightBack.isBusy()))
         {
+            telemetry.addData("Motor", pos);
             telemetry.addLine("Motors: Running");
 
             telemetry.update();
@@ -270,8 +279,8 @@ public abstract class RobotFunctions extends LinearOpMode
 
         VectorData move = AngleToVectorData(angle);
 
-        double left = Clamp((move.x + move.y) * power, -1, 1);
-        double right = Clamp((move.x - move.y) * power, -1, 1);
+        double left = Range.clip((move.x + move.y) * power, -1, 1);
+        double right = Range.clip((move.x - move.y) * power, -1, 1);
 
         driveBaseData.SetPower(left, right, right, left);
 
@@ -375,8 +384,12 @@ public abstract class RobotFunctions extends LinearOpMode
 
     //region Gyro
 
+
+    //slow down as we come closer to target
     public void TurnGyro(DriveBaseData driveBaseData, double power, double angle, IMUData imuData, double timeoutRedundancy)
     {
+        sleep(200);
+
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         double currentAngle = imuData.HeadingAngle();
@@ -384,10 +397,10 @@ public abstract class RobotFunctions extends LinearOpMode
 
         if(angle > currentAngle)
         {
-            driveBaseData.SetPower(power, -power, power, -power);
+            driveBaseData.SetPower(-power, power, -power, power);
             runtime.reset();
 
-            while (opModeIsActive() && runtime.time() < timeoutRedundancy && angle > currentAngle)
+            while (opModeIsActive() && runtime.time() < timeoutRedundancy && angle >= currentAngle + 10)
             {
                 currentAngle = imuData.HeadingAngle();
                 telemetry.addLine("Motors: Running");
@@ -396,12 +409,12 @@ public abstract class RobotFunctions extends LinearOpMode
                 telemetry.update();
             }
         }
-        else
+        else if(angle < currentAngle)
         {
-            driveBaseData.SetPower(-power, power, -power, power);
+            driveBaseData.SetPower(power, -power, power, -power);
             runtime.reset();
 
-            while (opModeIsActive() && runtime.time() < timeoutRedundancy && angle < currentAngle)
+            while (opModeIsActive() && runtime.time() < timeoutRedundancy && angle <= currentAngle - 10)
             {
                 currentAngle = imuData.HeadingAngle();
                 telemetry.addLine("Motors: Running");
@@ -416,31 +429,22 @@ public abstract class RobotFunctions extends LinearOpMode
         telemetry.update();
 
         driveBaseData.SetPower(0);
-
         sleep(100);
+
+        //return true;
     }
 
     //endregion
 
     //region Utility
 
-    private double Clamp(double value, double a, double b)
-    {
-        if(value > a)
-            return a;
-        else if(value < b)
-            return b;
-
-         return value;
-    }
-
     private VectorData AngleToVectorData(double angle)
     {
         VectorData move = new VectorData(0 , 0);
 
-        Math.toRadians(angle);
+        angle = Math.toRadians(angle);
         move.y = Math.sin(angle);
-        move.x = Math.sqrt(1 - Math.pow(move.y, 2));
+        move.x = Math.cos(angle);
         return move;
     }
 
@@ -467,11 +471,6 @@ public abstract class RobotFunctions extends LinearOpMode
 
     //endregion
 
-    //region Camera
-
-
-
-    //endregion
 }
 
 
