@@ -52,7 +52,7 @@ public class AutonomousProgram extends RobotFunctions
     private int targetSqaure = 0; // 0 -> A, 1 -> B, 2 -> C
     /*
         C
-            B
+     B
         A
      */
     private final int hueLow = 5, hueHigh = 30, satLow = 128, satHigh = 255, valLow = 128, valHigh = 255; // colour ranges, 0 - 255
@@ -150,23 +150,23 @@ public class AutonomousProgram extends RobotFunctions
         {
             case(0):
                 Drop();
-                DriveLeftRightDistance(driveBaseData, 1, 609, 10);
+                DriveLeftRightDistance(driveBaseData, 1, -609, 10);
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10);
                 ShootRings();
                 break;
             case(1):
-                DriveLeftRightDistance(driveBaseData, 1, 609, 10);
+                DriveLeftRightDistance(driveBaseData, 1, -609, 10);
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10);
                 ShootRings();
                 DriveFrontBackDistance(driveBaseData, 1, 600, 10);
                 Drop();
                 break;
             case(2):
-                DriveLeftRightDistance(driveBaseData, 1, 609, 10);
+                DriveLeftRightDistance(driveBaseData, 1, -609, 10);
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10);
                 ShootRings();
                 DriveFrontBackDistance(driveBaseData, 1, 1219, 10);
-                DriveLeftRightDistance(driveBaseData, 1, -300, 10);
+                DriveLeftRightDistance(driveBaseData, 1, 300, 10);
                 Drop();
                 break;
 
