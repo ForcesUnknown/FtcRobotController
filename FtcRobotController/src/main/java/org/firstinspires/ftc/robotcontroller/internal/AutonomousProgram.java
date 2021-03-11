@@ -49,7 +49,7 @@ public class AutonomousProgram extends RobotFunctions
     private NormalizedColorSensor colourSensor;
 
     private int ringFlickTime = 1500;
-    private int targetSqaure = 0; // 0 -> A, 1 -> B, 2 -> C
+    private int targetSquare = 0; // 0 -> A, 1 -> B, 2 -> C
     /*
         C
      B
@@ -146,7 +146,7 @@ public class AutonomousProgram extends RobotFunctions
         runtime.reset();
         DriveFrontBackDistance(driveBaseData, 1, 1371, 10);
 
-        switch(targetSqaure)
+        switch(targetSquare)
         {
             case(0):
                 Drop();
