@@ -91,7 +91,7 @@ public class AutonomousProgram extends RobotFunctions
 
         imuData = new IMUData("imu", hardwareMap);
 
-        /** Webcam stuff
+        //Webcam stuff
         webcamData = new WebcamData(hardwareMap, telemetry);
 
 
@@ -135,7 +135,7 @@ public class AutonomousProgram extends RobotFunctions
 
         telemetry.addLine("Orange Pixel Counter: " + counter);
         telemetry.addLine("Targeted Square: " + targetSquare + " (0 = A, 1 = B, 2 = C)");
-*/
+
         telemetry.addLine("Angle: " + imuData.HeadingAngle());
 
         telemetry.update();
