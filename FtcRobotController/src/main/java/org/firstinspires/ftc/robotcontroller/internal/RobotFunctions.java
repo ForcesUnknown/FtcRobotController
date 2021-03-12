@@ -203,8 +203,8 @@ public abstract class RobotFunctions extends LinearOpMode
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         int newPositionLeftFront = (int)(driveBaseData.leftFront.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
-        int newPositionRightFront = -(int)(driveBaseData.rightFront.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
-        int newPositionLeftBack = -(int)(driveBaseData.leftBack.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
+        int newPositionRightFront = (int)(driveBaseData.rightFront.getCurrentPosition() + Math.round(-distance * driveBaseData.ticksPerCentimeter));
+        int newPositionLeftBack = (int)(driveBaseData.leftBack.getCurrentPosition() + Math.round(-distance * driveBaseData.ticksPerCentimeter));
         int newPositionRightBack = (int)(driveBaseData.rightBack.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
 
         driveBaseData.SetTargetPosition(newPositionLeftFront, newPositionRightFront, newPositionLeftBack, newPositionRightBack);
