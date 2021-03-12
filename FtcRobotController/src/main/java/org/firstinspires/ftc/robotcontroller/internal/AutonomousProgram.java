@@ -48,7 +48,7 @@ public class AutonomousProgram extends RobotFunctions
 
     private NormalizedColorSensor colourSensor;
 
-    private int ringFlickTime = 800;
+    private int ringFlickTime = 1500;
     private int targetSquare = 0; // 0 -> A, 1 -> B, 2 -> C
     /*
         C
@@ -157,7 +157,7 @@ public class AutonomousProgram extends RobotFunctions
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10); //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 150, 10); // initial drive to line
-                DriveLeftRightDistance(driveBaseData, 1, 150, 10);
+                DriveLeftRightDistance(driveBaseData, 1, 220, 10);
                 TurnGyro(driveBaseData, 0.5, -170, imuData, 10);
                 Drop();
                 TurnGyro(driveBaseData, 0.5, 0, imuData, 10);
@@ -177,7 +177,7 @@ public class AutonomousProgram extends RobotFunctions
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 1219, 10);//drive to last square
                 DriveLeftRightDistance(driveBaseData, 1, 450, 10);//drive to last square but right not forward
-                TurnGyro(driveBaseData, 0.5, -170, imuData, 10);
+                TurnGyro(driveBaseData, 1, -170, imuData, 10);
                 Drop();
                 TurnGyro(driveBaseData, 0.5, 0, imuData, 10);
                 DriveFrontBackDistance(driveBaseData, 1, -1100, 10);
