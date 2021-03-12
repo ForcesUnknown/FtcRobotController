@@ -145,10 +145,10 @@ public class AutonomousProgram extends RobotFunctions
         waitForStart();
         runtime.reset();
 
-/*
+
         DriveFrontBackDistance(driveBaseData, 1, 1371, 10);
-        sleep(500);
-        DriveLeftRightDistance(driveBaseData, 1, -609, 10);
+        sleep(1000);
+        DriveLeftRightDistance(driveBaseData, 1, 1000, 10);
         sleep(30000);
 
 
@@ -176,7 +176,7 @@ public class AutonomousProgram extends RobotFunctions
                 Drop();
                 break;
 
-        }*/
+        }
 
         /** gyro vals
          * while(opModeIsActive())
@@ -196,11 +196,11 @@ public class AutonomousProgram extends RobotFunctions
             telemetry.addData("_Z_", imuData.HeadingAngle());
             telemetry.update();
         }*/
-        /**Encoder Test*/
+        /**Encoder Test
         TurnMotorDistance(driveBaseData.rightBack, 1, 5, 30, 1440);
         TurnMotorDistance(driveBaseData.leftBack, 1, 5, 30, 1440);
         TurnMotorDistance(driveBaseData.rightFront, 1, 5, 30, 1440);
-        TurnMotorDistance(driveBaseData.leftFront, 1, 5, 30, 1440);
+        TurnMotorDistance(driveBaseData.leftFront, 1, 5, 30, 1440);*/
 
         telemetry.addData("Motor", driveBaseData.leftBack.getCurrentPosition());
 
