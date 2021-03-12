@@ -158,14 +158,13 @@ public abstract class RobotFunctions extends LinearOpMode
         sleep(100);
     }
 
-    public void DriveFrontBackDistance(DriveBaseData driveBaseData, double power, double distance, double timeoutRedundancy)
-    {
+    public void DriveFrontBackDistance(DriveBaseData driveBaseData, double power, double distance, double timeoutRedundancy) {
         driveBaseData.SetMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        int newPositionLeftFront = (int)(driveBaseData.leftFront.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
-        int newPositionRightFront = (int)(driveBaseData.rightFront.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
-        int newPositionLeftBack = (int)(driveBaseData.leftBack.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
-        int newPositionRightBack = (int)(driveBaseData.rightBack.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
+        int newPositionLeftFront = (int) (driveBaseData.leftFront.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
+        int newPositionRightFront = (int) (driveBaseData.rightFront.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
+        int newPositionLeftBack = (int) (driveBaseData.leftBack.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
+        int newPositionRightBack = (int) (driveBaseData.rightBack.getCurrentPosition() + Math.round(distance * driveBaseData.ticksPerCentimeter));
 
         int pos = driveBaseData.leftFront.getCurrentPosition();
 
@@ -177,8 +176,7 @@ public abstract class RobotFunctions extends LinearOpMode
 
         runtime.reset();
 
-        while (opModeIsActive() && runtime.time() < timeoutRedundancy && (driveBaseData.leftFront.isBusy() && driveBaseData.rightFront.isBusy() && driveBaseData.leftBack.isBusy() && driveBaseData.rightBack.isBusy()))
-        {
+        while (opModeIsActive() && runtime.time() < timeoutRedundancy && (driveBaseData.leftFront.isBusy() && driveBaseData.rightFront.isBusy() && driveBaseData.leftBack.isBusy() && driveBaseData.rightBack.isBusy())) {
             telemetry.addData("Motor", pos);
             telemetry.addLine("Motors: Running");
 
