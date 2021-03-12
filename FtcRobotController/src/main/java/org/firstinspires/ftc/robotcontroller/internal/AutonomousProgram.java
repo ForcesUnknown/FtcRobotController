@@ -152,10 +152,12 @@ public class AutonomousProgram extends RobotFunctions
         switch(targetSquare)
         {
             case(0)://A
-                Drop();
                 DriveLeftRightDistance(driveBaseData, 1, -300, 10); //move left to line up with shooter
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10); //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
+                TurnGyro(driveBaseData, 0.25, 180, imuData, 10);
+                Drop();
+
                 break;
             case(1)://B
                 DriveLeftRightDistance(driveBaseData, 1, -300, 10);//move left to line up with shooter
