@@ -48,7 +48,7 @@ public class AutonomousProgram extends RobotFunctions
 
     private NormalizedColorSensor colourSensor;
 
-    private int ringFlickTime = 1500;
+    private int ringFlickTime = 800;
     private int targetSquare = 0; // 0 -> A, 1 -> B, 2 -> C
     /*
         C
@@ -166,7 +166,7 @@ public class AutonomousProgram extends RobotFunctions
                 DriveLeftRightDistance(driveBaseData, 1, -300, 10);//move left to line up with shooter
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10);//align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
-                DriveFrontBackDistance(driveBaseData, 1, 600, 10);//drive to 2nd square
+                DriveFrontBackDistance(driveBaseData, 1, 750, 10);//drive to 2nd square
                 DriveLeftRightDistance(driveBaseData, 1, 300, 10);//move left to line up with shooter
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -500, 10);//drive to 2nd square
@@ -176,10 +176,10 @@ public class AutonomousProgram extends RobotFunctions
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10);//align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 1219, 10);//drive to last square
-                DriveLeftRightDistance(driveBaseData, 1, 300, 10);//drive to last square but right not forward
-                TurnGyro(driveBaseData, 0.25, -150, imuData, 10);
+                DriveLeftRightDistance(driveBaseData, 1, 450, 10);//drive to last square but right not forward
+                TurnGyro(driveBaseData, 0.5, -170, imuData, 10);
                 Drop();
-                TurnGyro(driveBaseData, 0.25, 0, imuData, 10);
+                TurnGyro(driveBaseData, 0.5, 0, imuData, 10);
                 DriveFrontBackDistance(driveBaseData, 1, -1100, 10);
                 break;
 
