@@ -145,6 +145,8 @@ public class AutonomousProgram extends RobotFunctions
         waitForStart();
         runtime.reset();
 
+        targetSquare = 0;
+
 
         DriveFrontBackDistance(driveBaseData, 1, 1371, 10); // initial drive to line
         sleep(1000);
@@ -155,16 +157,19 @@ public class AutonomousProgram extends RobotFunctions
                 DriveLeftRightDistance(driveBaseData, 1, -300, 10); //move left to line up with shooter
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10); //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
-                TurnGyro(driveBaseData, 0.25, 180, imuData, 10);
+                DriveFrontBackDistance(driveBaseData, 1, 150, 10); // initial drive to line
+                TurnGyro(driveBaseData, 0.25, -150, imuData, 10);
                 Drop();
-
+                TurnGyro(driveBaseData, 0.25, 0, imuData, 10);
                 break;
             case(1)://B
                 DriveLeftRightDistance(driveBaseData, 1, -300, 10);//move left to line up with shooter
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10);//align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 600, 10);//drive to 2nd square
+                DriveLeftRightDistance(driveBaseData, 1, 300, 10);//move left to line up with shooter
                 Drop();
+                DriveFrontBackDistance(driveBaseData, 1, -500, 10);//drive to 2nd square
                 break;
             case(2)://C
                 DriveLeftRightDistance(driveBaseData, 1, -300, 10);//move left to line up with shooter
@@ -172,7 +177,10 @@ public class AutonomousProgram extends RobotFunctions
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 1219, 10);//drive to last square
                 DriveLeftRightDistance(driveBaseData, 1, 300, 10);//drive to last square but right not forward
-                Drop();//drop wobble
+                TurnGyro(driveBaseData, 0.25, -150, imuData, 10);
+                Drop();
+                TurnGyro(driveBaseData, 0.25, 0, imuData, 10);
+                DriveFrontBackDistance(driveBaseData, 1, -1100, 10);
                 break;
 
         }
