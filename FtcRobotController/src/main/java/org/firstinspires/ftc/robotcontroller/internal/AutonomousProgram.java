@@ -147,9 +147,8 @@ public class AutonomousProgram extends RobotFunctions
 
         targetSquare = 0;
 
-
+        shooterMotor.setPower(1);
         DriveFrontBackDistance(driveBaseData, 1, 1371, 10); // initial drive to line
-        sleep(1000);
 
         switch(targetSquare)
         {
@@ -158,9 +157,9 @@ public class AutonomousProgram extends RobotFunctions
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10); //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 150, 10); // initial drive to line
-                TurnGyro(driveBaseData, 0.25, -150, imuData, 10);
+                TurnGyro(driveBaseData, 0.5, -170, imuData, 10);
                 Drop();
-                TurnGyro(driveBaseData, 0.25, 0, imuData, 10);
+                TurnGyro(driveBaseData, 0.5, 0, imuData, 10);
                 break;
             case(1)://B
                 DriveLeftRightDistance(driveBaseData, 1, -300, 10);//move left to line up with shooter
@@ -216,17 +215,14 @@ public class AutonomousProgram extends RobotFunctions
 
     private void Drop()
     {
-        TurnMotorTime(wobbleMotor, -0.25, 1000);
+        TurnMotorTime(wobbleMotor, -1, 500);
         SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
         sleep(1000);
-        TurnMotorTime(wobbleMotor, 0.25, 1000);
+        TurnMotorTime(wobbleMotor, 1, 500);
     }
 
     private void ShootRings()
     {
-        shooterMotor.setPower(1);
-        sleep(4000);
-
         for (int i = 0; i < 3; i++)
         {
             SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
