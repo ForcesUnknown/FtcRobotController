@@ -157,6 +157,7 @@ public class AutonomousProgram extends RobotFunctions
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10); //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 150, 10); // initial drive to line
+                DriveLeftRightDistance(driveBaseData, 1, 150, 10);
                 TurnGyro(driveBaseData, 0.5, -170, imuData, 10);
                 Drop();
                 TurnGyro(driveBaseData, 0.5, 0, imuData, 10);
