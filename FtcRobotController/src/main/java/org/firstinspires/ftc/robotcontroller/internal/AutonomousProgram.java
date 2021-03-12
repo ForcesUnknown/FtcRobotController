@@ -55,9 +55,9 @@ public class AutonomousProgram extends RobotFunctions
      B
         A
      */
-    private final int hueLow = 5, hueHigh = 30, satLow = 128, satHigh = 255, valLow = 128, valHigh = 255; // colour ranges, 0 - 255
+    private final int hueLow = 5, hueHigh = 30, satLow = 128, satHigh = 255, valLow = 100, valHigh = 255; // colour ranges, 0 - 255
     private final int leftX = 700, topY = 600, rightX = 1000, bottomY = 750; //coords in picture to look at (doesnt need to process the edges. eg: dont check the walls)
-    private final int lowThreshHold = 5000, highThreshHold = 20000; // 0 rings < low < 1 ring < high < 4 ring
+    private final int lowThreshHold = 5000, highThreshHold = 30000; // 0 rings < low < 1 ring < high < 4 ring
 
     private BNO055IMU imu = null;
     Orientation angles;
@@ -122,11 +122,11 @@ public class AutonomousProgram extends RobotFunctions
         }
 
         if(counter < lowThreshHold)
-            targetSqaure = 0;
+            targetSquare = 0;
         if(counter >= lowThreshHold && counter <= highThreshHold)
-            targetSqaure = 1;
+            targetSquare = 1;
         if(counter > highThreshHold)
-            targetSqaure = 2;
+            targetSquare = 2;
 
         if(picture == null)
             telemetry.addData("Status", "Failure: Webcam was not able to get an image, try reinitializing");
@@ -144,7 +144,13 @@ public class AutonomousProgram extends RobotFunctions
 
         waitForStart();
         runtime.reset();
+
+/*
         DriveFrontBackDistance(driveBaseData, 1, 1371, 10);
+        sleep(500);
+        DriveLeftRightDistance(driveBaseData, 1, -609, 10);
+        sleep(30000);
+
 
         switch(targetSquare)
         {
@@ -170,7 +176,7 @@ public class AutonomousProgram extends RobotFunctions
                 Drop();
                 break;
 
-        }
+        }*/
 
         /** gyro vals
          * while(opModeIsActive())
@@ -190,11 +196,11 @@ public class AutonomousProgram extends RobotFunctions
             telemetry.addData("_Z_", imuData.HeadingAngle());
             telemetry.update();
         }*/
-        /**Encoder Test
-        TurnMotorDistance(driveBaseData.rightBack, 1, 5, 10, 1440);
+        /**Encoder Test*/
+        TurnMotorDistance(driveBaseData.rightBack, 1, 5, 30, 1440);
         TurnMotorDistance(driveBaseData.leftBack, 1, 5, 30, 1440);
-        TurnMotorDistance(driveBaseData.rightFront, 1, 5, 10, 1440);
-        TurnMotorDistance(driveBaseData.leftFront, 1, 5, 10, 1440);*/
+        TurnMotorDistance(driveBaseData.rightFront, 1, 5, 30, 1440);
+        TurnMotorDistance(driveBaseData.leftFront, 1, 5, 30, 1440);
 
         telemetry.addData("Motor", driveBaseData.leftBack.getCurrentPosition());
 
