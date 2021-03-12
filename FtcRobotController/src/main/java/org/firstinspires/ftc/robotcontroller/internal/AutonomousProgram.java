@@ -206,10 +206,10 @@ public class AutonomousProgram extends RobotFunctions
 
     private void Drop()
     {
-        TurnMotorTime(wobbleMotor, 0.25, 100);
+        TurnMotorTime(wobbleMotor, 0.25, 1000);
         SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
-        sleep(250);
-        TurnMotorTime(wobbleMotor, -0.25, 100);
+        sleep(1000);
+        TurnMotorTime(wobbleMotor, -0.25, 1000);
     }
 
     private void ShootRings()
