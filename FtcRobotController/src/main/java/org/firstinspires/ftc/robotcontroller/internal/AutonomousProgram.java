@@ -36,7 +36,7 @@ public class AutonomousProgram extends RobotFunctions
 
     private DriveBaseData driveBaseData = null;
     private DcMotorEx shooterMotor = null;
-    private DcMotor wobbleMotor;
+    private DcMotor wobbleMotor = null;
 
     private ServoData wobbleServo = null;
     private ServoData ringServoArm = null;
@@ -84,7 +84,7 @@ public class AutonomousProgram extends RobotFunctions
 
         shooterMotor = hardwareMap.get(DcMotorEx.class, "ShooterMotor");
         wobbleMotor = hardwareMap.get(DcMotor.class, "WobbleMotor");
-        wobbleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        wobbleMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ringServoArm = new ServoData("RingServoArm", 0.0, 0.2, hardwareMap, Servo.Direction.FORWARD);
         wobbleServo = new ServoData("WobbleServoArm", 0.5, 0.0, hardwareMap, Servo.Direction.FORWARD);
@@ -206,10 +206,10 @@ public class AutonomousProgram extends RobotFunctions
 
     private void Drop()
     {
-        TurnMotorTime(wobbleMotor, 0.25, 1000);
+        TurnMotorTime(wobbleMotor, -0.25, 1000);
         SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
         sleep(1000);
-        TurnMotorTime(wobbleMotor, -0.25, 1000);
+        TurnMotorTime(wobbleMotor, 0.25, 1000);
     }
 
     private void ShootRings()
