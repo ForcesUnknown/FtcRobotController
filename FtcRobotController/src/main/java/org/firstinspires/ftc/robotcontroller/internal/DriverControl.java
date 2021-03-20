@@ -172,7 +172,7 @@ public class DriverControl extends RobotFunctions
                 flyWheelSpeed += 0.0001;*/
             //endregion
 
-            if(/*shooterOn*/gamepad1.right_trigger > 0.1)
+            if(shooterOn/*gamepad1.right_trigger > 0.1*/)
                 shooterMotor.setPower(flyWheelSpeed);
             else
                 shooterMotor.setPower(0);
