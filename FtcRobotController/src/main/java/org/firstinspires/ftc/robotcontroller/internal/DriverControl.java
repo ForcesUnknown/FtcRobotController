@@ -36,7 +36,7 @@ public class DriverControl extends RobotFunctions
     private double lastRingFlick;
     private double ringFlickTime = 1500; // -> change this value (in ms) to change how quickly you can load the shooter.
 
-    private final double highGoalDegreesPerSecond = 1;
+    private final double highGoalDegreesPerSecond = 0.85;
     private final double powerShotDegreesPerSecond = 0.75;
     private double flyWheelSpeed;
 
