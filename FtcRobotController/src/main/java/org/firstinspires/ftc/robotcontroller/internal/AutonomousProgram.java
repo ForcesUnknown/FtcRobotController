@@ -147,13 +147,13 @@ public class AutonomousProgram extends RobotFunctions
 
 
 
-        shooterMotor.setPower(1);
+        shooterMotor.setPower(0.85);
         DriveFrontBackDistance(driveBaseData, 1, 1371, 10); // initial drive to line
 
         switch(targetSquare)
         {
             case(0)://A
-                DriveLeftRightDistance(driveBaseData, 1, -300, 10); //move left to line up with shooter
+                DriveLeftRightDistance(driveBaseData, 1, -330, 10); //move left to line up with shooter
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10); //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 150, 10); // initial drive to line
@@ -162,7 +162,7 @@ public class AutonomousProgram extends RobotFunctions
                 Drop();
                 DriveLeftRightDistance(driveBaseData, 1, 100, 10);
                 TurnGyro(driveBaseData, 0.5, 0, imuData, 10);
-                DriveFrontBackDistance(driveBaseData, 1, 50, 10);
+                DriveFrontBackDistance(driveBaseData, 1, 100, 10);
                 break;
             case(1)://B
                 DriveLeftRightDistance(driveBaseData, 1, -300, 10);//move left to line up with shooter
@@ -170,21 +170,24 @@ public class AutonomousProgram extends RobotFunctions
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 820, 10);//drive to 2nd square
                 DriveLeftRightDistance(driveBaseData, 1, 300, 10);//move left to line up with shooter
-                Drop();
+                TurnMotorTime(wobbleMotor, -0.25, 1000); //Drop , changed to move sightly right before the arm goes up, ONLY for case 1
+                SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
+                sleep(1600);
+                DriveLeftRightDistance(driveBaseData, 1, 50, 10);
+                TurnMotorTime(wobbleMotor, 0.5, 1000); //Drop finishes here
                 DriveLeftRightDistance(driveBaseData, 1, 100, 10);
                 DriveFrontBackDistance(driveBaseData, 1, -550, 10);//drive to 2nd square
                 break;
             case(2)://C
-                DriveLeftRightDistance(driveBaseData, 1, -300, 10);//move left to line up with shooter
-                TurnGyro(driveBaseData, 0.1, 0, imuData, 10);//align to be straight (if orientation is off just remove)
+                DriveLeftRightDistance(driveBaseData, 1, -330, 10);//move left to line up with shooter
+                TurnGyro(driveBaseData, 0.1, 0, imuData, 10);  //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 1219, 10);//drive to last square
-                DriveLeftRightDistance(driveBaseData, 1, 520, 10);//drive to last square but right not forward
+                DriveLeftRightDistance(driveBaseData, 1, 500, 10);//drive to last square but right not forward
                 TurnGyro(driveBaseData, 1, -170, imuData, 10);
                 Drop();
                 DriveLeftRightDistance(driveBaseData, 1, 100, 10);
-                TurnGyro(driveBaseData, 0.5, 0, imuData, 10);
-                DriveFrontBackDistance(driveBaseData, 1, -1100, 10);
+                DriveFrontBackDistance(driveBaseData, 1, 950, 10);
                 break;
 
         }
@@ -222,7 +225,7 @@ public class AutonomousProgram extends RobotFunctions
     {
         TurnMotorTime(wobbleMotor, -0.25, 1000);
         SetServoPosition(wobbleServo.servo, wobbleServo.targetPosition);
-        sleep(1500);
+        sleep(1600);
         TurnMotorTime(wobbleMotor, 0.5, 1000);
     }
 
