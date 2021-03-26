@@ -153,29 +153,29 @@ public class BlueAutonomousProgram extends RobotFunctions
         switch(targetSquare)
         {
             case(0)://A
-                DriveLeftRightDistance(driveBaseData, 1, -330, 10); //move left to line up with shooter
-                TurnGyro(driveBaseData, 0.1, 0, imuData, 10); //align to be straight (if orientation is off just remove)
+                DriveLeftRightDistance(driveBaseData, 1, -445, 10); //move left to line up with shooter
+               /* TurnGyro(driveBaseData, 0.1, 0, imuData, 10);*/ //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
-                DriveFrontBackDistance(driveBaseData, 1, 150, 10); // initial drive to line
-                DriveLeftRightDistance(driveBaseData, 1, -400, 10);
+                DriveFrontBackDistance(driveBaseData, 1, 165, 10); // initial drive to line
+                DriveLeftRightDistance(driveBaseData, 1, -305, 10);
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, 100, 10);
                 break;
             case(1)://B
-                DriveLeftRightDistance(driveBaseData, 1, -330, 10);//move left to line up with shooter
+                DriveLeftRightDistance(driveBaseData, 1, -430, 10);//move left to line up with shooter
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10);//align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 820, 10);//drive to 2nd square
-                DriveLeftRightDistance(driveBaseData, 1, 300, 10);//move left to line up with shooter
+                DriveLeftRightDistance(driveBaseData, 1, 250, 10);//move left to line up with shooter
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -550, 10);//drive to 2nd square
                 break;
             case(2)://C
-                DriveLeftRightDistance(driveBaseData, 1, -330, 10);//move left to line up with shooter
+                DriveLeftRightDistance(driveBaseData, 1, -430, 10);//move left to line up with shooter
                 TurnGyro(driveBaseData, 0.1, 0, imuData, 10);  //align to be straight (if orientation is off just remove)
                 ShootRings();//shoot
-                DriveFrontBackDistance(driveBaseData, 1, 1219, 10);//drive to last square
-                DriveLeftRightDistance(driveBaseData, 1, -400, 10);//drive to last square but right not forward
+                DriveFrontBackDistance(driveBaseData, 1, 1400, 10);//drive to last square
+                DriveLeftRightDistance(driveBaseData, 1, -340, 10);//drive to last square but right not forward
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -950, 10);
                 break;
