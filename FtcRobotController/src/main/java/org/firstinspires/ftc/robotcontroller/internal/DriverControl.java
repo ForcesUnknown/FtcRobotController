@@ -34,7 +34,7 @@ public class DriverControl extends RobotFunctions
     private boolean ringFlick;
 
     private double lastRingFlick;
-    private double ringFlickTime = 1500; // -> change this value (in ms) to change how quickly you can load the shooter.
+    private int ringFlickTime = 1500; // -> change this value (in ms) to change how quickly you can load the shooter.
 
     private final double highGoalDegreesPerSecond = 0.85;
     private final double powerShotDegreesPerSecond = 0.75;
@@ -189,18 +189,20 @@ public class DriverControl extends RobotFunctions
             //endregion
 
             //region ring flick
-            if (gamepad1.left_trigger > 0 && lastRingFlick + ringFlickTime < runtime.milliseconds())
+            if (gamepad1.left_trigger > 0 && !ringFlick)
             {
-                lastRingFlick = runtime.milliseconds();
+                ShootRings();
                 ringFlick = true;
+                //lastRingFlick = runtime.milliseconds();
+                //ringFlick = true;
             }
 
-            if(lastRingFlick + (ringFlickTime / 2) < runtime.milliseconds())
+            /*if(lastRingFlick + (ringFlickTime / 2) < runtime.milliseconds())
                 ringFlick = false;
             if (ringFlick)
                 SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
             else
-                SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+                SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);*/
 
             //endregion
 
@@ -230,5 +232,19 @@ public class DriverControl extends RobotFunctions
         }
 
         //Drive forward
+    }
+
+    public void ShootRings()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
+            sleep(ringFlickTime);
+            SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+            sleep(ringFlickTime);
+        }
+
+        ringFlick = false;
+
     }
 }
