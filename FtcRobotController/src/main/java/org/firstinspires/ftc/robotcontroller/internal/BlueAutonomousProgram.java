@@ -147,35 +147,28 @@ public class BlueAutonomousProgram extends RobotFunctions
 
 
 
-        shooterMotor.setPower(0.85);
+        shooterMotor.setPower(0.75);
         DriveFrontBackDistance(driveBaseData, 1, 1371, 10); // initial drive to line
+
+        ShootRings();
 
         switch(targetSquare)
         {
             case(0)://A
-                DriveLeftRightDistance(driveBaseData, 1, -445, 10); //move left to line up with shooter
-               /* TurnGyro(driveBaseData, 0.1, 0, imuData, 10);*/ //align to be straight (if orientation is off just remove)
-                ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 165, 10); // initial drive to line
-                DriveLeftRightDistance(driveBaseData, 1, -305, 10);
+                DriveLeftRightDistance(driveBaseData, 1, -760, 10);
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, 100, 10);
                 break;
             case(1)://B
-                DriveLeftRightDistance(driveBaseData, 1, -430, 10);//move left to line up with shooter
-                TurnGyro(driveBaseData, 0.1, 0, imuData, 10);//align to be straight (if orientation is off just remove)
-                ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 820, 10);//drive to 2nd square
-                DriveLeftRightDistance(driveBaseData, 1, 250, 10);//move left to line up with shooter
+                DriveLeftRightDistance(driveBaseData, 1, -275, 10);//move left to line up with shooter
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -550, 10);//drive to 2nd square
                 break;
             case(2)://C
-                DriveLeftRightDistance(driveBaseData, 1, -430, 10);//move left to line up with shooter
-                TurnGyro(driveBaseData, 0.1, 0, imuData, 10);  //align to be straight (if orientation is off just remove)
-                ShootRings();//shoot
                 DriveFrontBackDistance(driveBaseData, 1, 1400, 10);//drive to last square
-                DriveLeftRightDistance(driveBaseData, 1, -340, 10);//drive to last square but right not forward
+                DriveLeftRightDistance(driveBaseData, 1, -760, 10);//drive to last square but right not forward
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -950, 10);
                 break;
@@ -226,9 +219,18 @@ public class BlueAutonomousProgram extends RobotFunctions
         for (int i = 0; i < 3; i++)
         {
             SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
-            sleep(ringFlickTime);
-            SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
-            sleep(ringFlickTime);
+            sleep(100);
+            if(i < 2)
+            {
+                DriveLeftRightDistance(driveBaseData, 1, 19, 4);
+                SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+                sleep(ringFlickTime);
+            }
+            else
+            {
+                SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+            }
+
         }
 
         shooterMotor.setPower(0);
