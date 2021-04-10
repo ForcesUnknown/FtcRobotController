@@ -31,7 +31,7 @@ public class DriverControl extends RobotFunctions
     private WobbleState wobbleState = WobbleState.NOTHING;
     private boolean wobbleGrab;
     private boolean shooterOn;
-    private boolean ringFlick;
+    private boolean ringFlick = false;
 
     private double lastRingFlick;
     private int ringFlickTime = 1500; // -> change this value (in ms) to change how quickly you can load the shooter.
@@ -187,12 +187,11 @@ public class DriverControl extends RobotFunctions
             intakeMotor.setPower(intakePower);
 
             //endregion
-
             //region ring flick
             if (gamepad1.left_trigger > 0 && !ringFlick)
             {
-                ShootRings();
                 ringFlick = true;
+                ShootRings();
                 //lastRingFlick = runtime.milliseconds();
                 //ringFlick = true;
             }
