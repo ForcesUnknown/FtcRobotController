@@ -156,19 +156,19 @@ public class BlueAutonomousProgram extends RobotFunctions
         {
             case(0)://A
                 DriveFrontBackDistance(driveBaseData, 1, 165, 10); // initial drive to line
-                DriveLeftRightDistance(driveBaseData, 1, -950, 10);
+                DriveLeftRightDistance(driveBaseData, 1, -760, 10);
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, 100, 10);
                 break;
             case(1)://B
                 DriveFrontBackDistance(driveBaseData, 1, 820, 10);//drive to 2nd square
-                DriveLeftRightDistance(driveBaseData, 1, -400, 10);//move left to line up with shooter
+                DriveLeftRightDistance(driveBaseData, 1, -250, 10);//move left to line up with shooter
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -550, 10);//drive to 2nd square
                 break;
             case(2)://C
                 DriveFrontBackDistance(driveBaseData, 1, 1400, 10);//drive to last square
-                DriveLeftRightDistance(driveBaseData, 1, -900, 10);//drive to last square but right not forward
+                DriveLeftRightDistance(driveBaseData, 1, -760, 10);//drive to last square but right not forward
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -950, 10);
                 break;
@@ -223,13 +223,13 @@ public class BlueAutonomousProgram extends RobotFunctions
         sleep(1500);
         //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
         SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
-        TurnGyro(driveBaseData, 0.25, -15, imuData, 3);
+        TurnGyro(driveBaseData, 0.25, -10, imuData, 3);
 
         SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
         sleep(1500);
         //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
         SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
-        TurnGyro(driveBaseData, 0.25, -30, imuData, 3);
+        TurnGyro(driveBaseData, 0.25, -20, imuData, 3);
 
         SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
         sleep(1500);
