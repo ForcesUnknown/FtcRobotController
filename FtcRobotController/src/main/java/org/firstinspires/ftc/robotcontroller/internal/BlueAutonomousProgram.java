@@ -219,22 +219,22 @@ public class BlueAutonomousProgram extends RobotFunctions
 
     private void ShootRings()
     {
-        TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
         SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
         sleep(1500);
-        DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
+        TurnGyro(driveBaseData, 0.25, -15, imuData, 3);
+        //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
         SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
 
-        TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
         SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
         sleep(1500);
-        DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
+        TurnGyro(driveBaseData, 0.25, -30, imuData, 3);
+        //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
         SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
 
-        TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
         SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
         sleep(1500);
         SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+        TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
 
         shooterMotor.setPower(0);
 
