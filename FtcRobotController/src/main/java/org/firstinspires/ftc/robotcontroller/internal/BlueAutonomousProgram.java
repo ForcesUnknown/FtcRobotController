@@ -156,19 +156,19 @@ public class BlueAutonomousProgram extends RobotFunctions
         {
             case(0)://A
                 DriveFrontBackDistance(driveBaseData, 1, 165, 10); // initial drive to line
-                DriveLeftRightDistance(driveBaseData, 1, -760, 10);
+                DriveLeftRightDistance(driveBaseData, 1, -950, 10);
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, 100, 10);
                 break;
             case(1)://B
                 DriveFrontBackDistance(driveBaseData, 1, 820, 10);//drive to 2nd square
-                DriveLeftRightDistance(driveBaseData, 1, -275, 10);//move left to line up with shooter
+                DriveLeftRightDistance(driveBaseData, 1, -400, 10);//move left to line up with shooter
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -550, 10);//drive to 2nd square
                 break;
             case(2)://C
                 DriveFrontBackDistance(driveBaseData, 1, 1400, 10);//drive to last square
-                DriveLeftRightDistance(driveBaseData, 1, -760, 10);//drive to last square but right not forward
+                DriveLeftRightDistance(driveBaseData, 1, -900, 10);//drive to last square but right not forward
                 Drop();
                 DriveFrontBackDistance(driveBaseData, 1, -950, 10);
                 break;
@@ -219,12 +219,12 @@ public class BlueAutonomousProgram extends RobotFunctions
         for (int i = 0; i < 3; i++)
         {
             SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
-            sleep(100);
+            sleep(500);
             if(i < 2)
             {
                 DriveLeftRightDistance(driveBaseData, 1, 190, 4);
                 SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
-                sleep(ringFlickTime);
+                sleep(ringFlickTime - 500);
             }
             else
             {
