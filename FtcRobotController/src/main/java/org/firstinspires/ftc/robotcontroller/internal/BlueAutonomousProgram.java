@@ -222,12 +222,13 @@ public class BlueAutonomousProgram extends RobotFunctions
             sleep(100);
             if(i < 2)
             {
-                DriveLeftRightDistance(driveBaseData, 1, 19, 4);
+                DriveLeftRightDistance(driveBaseData, 1, 190, 4);
                 SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
                 sleep(ringFlickTime);
             }
             else
             {
+                sleep(ringFlickTime);
                 SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
             }
 
