@@ -214,17 +214,20 @@ public class BlueAutonomousProgram extends RobotFunctions
         DriveLeftRightDistance(driveBaseData, 1, 50, 10);
     }
 
+    //out - right - back - turn - out - right - back - turn - out
+    //turn - out - right - back
+
     private void ShootRings()
     {
         for (int i = 0; i < 3; i++)
         {
-            TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
+            //TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
 
             SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
-            sleep(500);
+            sleep(1500);
             if(i < 2)
             {
-                DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
+                //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
                 SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
 
                 sleep(ringFlickTime - 500);
@@ -232,7 +235,7 @@ public class BlueAutonomousProgram extends RobotFunctions
             else
             {
 
-                TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
+                //TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
                 sleep(1000);
 
                 SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
