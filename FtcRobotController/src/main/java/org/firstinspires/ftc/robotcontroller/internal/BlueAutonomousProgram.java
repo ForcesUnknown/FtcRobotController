@@ -230,7 +230,9 @@ public class BlueAutonomousProgram extends RobotFunctions
             }
             else
             {
+
                 TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
+                sleep(1000);
 
                 SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
             }
