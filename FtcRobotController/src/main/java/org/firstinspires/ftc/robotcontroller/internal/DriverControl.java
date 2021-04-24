@@ -191,7 +191,10 @@ public class DriverControl extends RobotFunctions
             if (gamepad1.left_trigger > 0 && !ringFlick)
             {
                 ringFlick = true;
-                ShootRings();
+                if(flyWheelSpeed == highGoalDegreesPerSecond)
+                    ShootRings();
+                else if(flyWheelSpeed == powerShotDegreesPerSecond)
+                    ShootRingsPower();
                 //lastRingFlick = runtime.milliseconds();
                 //ringFlick = true;
             }
@@ -244,6 +247,54 @@ public class DriverControl extends RobotFunctions
         }
 
         ringFlick = false;
+
+    }
+
+    private void ShootRingsPower()
+    {
+        SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
+        sleep(1500);
+        //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
+        SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+        TurnGyro(driveBaseData, 0.25, -10, imuData, 3);
+
+        SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
+        sleep(1500);
+        //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
+        SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+        TurnGyro(driveBaseData, 0.25, -20, imuData, 3);
+
+        SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
+        sleep(1500);
+        SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+        TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
+
+        shooterMotor.setPower(0);
+
+
+       /* for (int i = 0; i < 3; i++)
+        {
+            //TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
+
+            SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
+            sleep(1500);
+            if(i < 2)
+            {
+                //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
+                SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+
+                sleep(ringFlickTime - 500);
+            }
+            else
+            {
+
+                //TurnGyro(driveBaseData, 0.25, 0, imuData, 3);
+                sleep(1000);
+
+                SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
+            }
+
+        }*/
 
     }
 }
