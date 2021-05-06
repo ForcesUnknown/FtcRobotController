@@ -256,7 +256,7 @@ public class DriverControl extends RobotFunctions
         sleep(1500);
         //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
         SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
-        TurnGyro(driveBaseData, 0.25, -10, imuData, 3);
+        TurnGyro(driveBaseData, 0.25, -15, imuData, 3);
 
         SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
         sleep(1500);

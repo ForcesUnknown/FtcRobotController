@@ -56,7 +56,7 @@ public class BlueAutonomousProgram extends RobotFunctions
         A
      */
     private final int hueLow = 5, hueHigh = 30, satLow = 128, satHigh = 255, valLow = 100, valHigh = 255; // colour ranges, 0 - 255
-    private final int leftX = 300, topY = 650, rightX = 800, bottomY = 1000; //coords in picture to look at (doesnt need to process the edges. eg: dont check the walls)
+    private final int leftX = 520, topY = 800, rightX = 830, bottomY = 1060; //coords in picture to look at (doesnt need to process the edges. eg: dont check the walls)
     private final int lowThreshHold = 5000, highThreshHold = 30000; // 0 rings < low < 1 ring < high < 4 ring
 
     private BNO055IMU imu = null;
@@ -150,6 +150,8 @@ public class BlueAutonomousProgram extends RobotFunctions
         shooterMotor.setPower(0.75);
         DriveFrontBackDistance(driveBaseData, 1, 1371, 10); // initial drive to line
 
+        DriveLeftRightDistance(driveBaseData, 1, -50, 10); //small turn for first power shot, can adjust as needed
+
         ShootRings();
 
         switch(targetSquare)
@@ -223,7 +225,7 @@ public class BlueAutonomousProgram extends RobotFunctions
         sleep(1500);
         //DriveLeftRightDistance(driveBaseData, 0.5, 190, 4);
         SetServoPosition(ringServoArm.servo, ringServoArm.startPosition);
-        TurnGyro(driveBaseData, 0.25, -10, imuData, 3);
+        TurnGyro(driveBaseData, 0.25, -15, imuData, 3);
 
         SetServoPosition(ringServoArm.servo, ringServoArm.targetPosition);
         sleep(1500);
